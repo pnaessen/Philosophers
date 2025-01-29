@@ -1,12 +1,12 @@
 NAME := philo
 
-SRC:= $(addprefix $(SRC_DIR), philo.c init.c)
+SRC:= $(addprefix $(SRC_DIR), philo.c init.c actions.c routine.c utils.c)
 OBJ_DIR:= .obj/
 OBJ:= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 DEPS:= $(OBJ:%.o=%.d)
 
 CC:= cc
-CCFLAGS:= -Wextra -Wall -Werror 
+CCFLAGS:= -Wextra -Wall -Werror -pthread
 CPPFLAGS = -MMD -MP
 SRC_DIR:= src/
 INCLUDES:= include/
@@ -43,22 +43,21 @@ welcome:
 
 clean:
 	@echo "🧹 $(YELLOW)« Nettoyer les objets inutiles, c'est purifier l'âme de la programmation. » - Nietzsche$(DEF_COLOR)"
- 	@echo "🧹 $(YELLOW)« La déconstruction est un acte de sagesse profonde. » - Nietzsche $(DEF_COLOR)"
+	@echo "🧹 $(YELLOW)« La déconstruction est un acte de sagesse profonde. » - Nietzsche $(DEF_COLOR)"
 	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@echo "$(RED)"
-	@echo "        . . . . . . . . . ."
-	@echo "      .     *     *     *"
-	@echo "   .       *       *       ."
-	@echo "         *   La fin du code !   *"
-	@echo "      .       *       *       ."
-	@echo "    *     *     *     *     *"
-	@echo "      ' . . . . . . . . '"
+	@echo "        💀"
+	@echo "       (X_X)"
+	@echo "      / | | \\"
+	@echo "       /   \\"
+	@echo "  « Ce qui ne me tue pas me rend plus fort. » - Nietzsche"
 	@echo "$(DEF_COLOR)"
 	@echo "$(RED)🧨💥 « La destruction précède la création ! » - Nietzsche 💥🧨 $(DEF_COLOR)"
-	$(MAKE) fclean -C $(LIBFT_DIR)
 	rm -f $(NAME)
+
+
 re: fclean all
 	@echo "$(CYAN)« On ne se baigne jamais deux fois dans le même code. » - Héraclite $(DEF_COLOR)"
 

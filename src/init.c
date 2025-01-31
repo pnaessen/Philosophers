@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/01/29 22:17:34 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 19:31:57 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int	init_data(t_data *data, int argc, char **argv)
 {
+	// if (data->num_philos <= 0 || data->time_to_die <= 0 || 
+    // data->time_to_eat <= 0 || data->time_to_sleep <= 0 ||
+    // (argc == 6 && data->max_meals <= 0))
+   	// 	 return (1);
 	data->num_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);

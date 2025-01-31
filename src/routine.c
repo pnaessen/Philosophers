@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/01/29 22:29:07 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 19:26:13 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	*monitor(void *arg)
 		}
 		if (check_meals_complete(philos->data, philos))
 			break ;
-		usleep(1000);
+		usleep(100);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/01/29 22:28:23 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 19:26:07 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,24 @@ long	get_current_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	ft_sleep(int ms)
+void    ft_sleep(int ms)
 {
-	long	start;
+    long    start;
+    long    elapsed;
+    long    remaining;
 
-	start = get_current_time();
-	while (get_current_time() - start < ms)
-		usleep(500);
+    start = get_current_time();
+    while (1)
+    {
+        elapsed = get_current_time() - start;
+        if (elapsed >= ms)
+            break;
+        remaining = ms - elapsed;
+        if (remaining > 1)
+            usleep(remaining * 0.8 * 1000);
+        else
+            usleep(100);
+    }
 }
 
 int	ft_atoi(const char *str)

@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/01 17:42:30 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/01 22:38:53 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
-		ft_sleep(1);
-	while (1)
+	pthread_mutex_lock(&philo->data->start_lock);
+	philo->data->threads_ready++;
+	pthread_mutex_unlock(&philo->data->start_lock);
+	while (!philo->data->simulation_end)
 	{
 		philo_eat(philo);
 		print_status(philo, "is sleeping");

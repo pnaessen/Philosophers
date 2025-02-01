@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/02/01 19:52:32 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/01 21:43:34 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void    ft_sleep(int ms)
 {
     long    start;
     long    elapsed;
+    long    remaining;
 
     start = get_current_time();
     while (1)
@@ -31,8 +32,9 @@ void    ft_sleep(int ms)
         elapsed = get_current_time() - start;
         if (elapsed >= ms)
             break;
-        if (ms - elapsed > 5)
-            usleep(1000);
+        remaining = ms - elapsed;
+        if (remaining > 1)
+            usleep(remaining * 0.8 * 1000);
         else
             usleep(100);
     }

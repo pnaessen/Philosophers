@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:28:13 by pn                #+#    #+#             */
-/*   Updated: 2025/01/29 22:22:28 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/01 22:39:22 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ int	main(int argc, char **argv)
 	i = -1;
 	while (++i < data.num_philos)
 		pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
+	while (1)
+	{
+		pthread_mutex_lock(&data.end_lock);
+		if (data.threads_ready == data.num_philos)
+		{
+			pthread_mutex_unlock(&data.end_lock);
+			break ;
+		}
+		pthread_mutex_unlock(&data.end_lock);
+	}
+	
 	pthread_create(&data.monitor_thread, NULL, monitor, philos);
 	i = -1;
 	while (++i < data.num_philos)
@@ -35,6 +46,7 @@ int	main(int argc, char **argv)
 	pthread_mutex_destroy(&data.write_lock);
 	pthread_mutex_destroy(&data.meal_lock);
 	pthread_mutex_destroy(&data.end_lock);
+	pthread_mutex_destroy(&data.start_lock);
 	i = -1;
 	while (++i < data.num_philos)
 		pthread_mutex_destroy(&data.forks[i]);

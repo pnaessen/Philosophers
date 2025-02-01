@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/01/31 19:31:57 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/01 22:34:45 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ int	init_data(t_data *data, int argc, char **argv)
 		data->max_meals = ft_atoi(argv[5]);
 	data->start_time = get_current_time();
 	data->simulation_end = false;
+	data->threads_ready = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
 	if (!data->forks)
 		return (1);
+	pthread_mutex_init(&data->start_lock, NULL);
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
 	pthread_mutex_init(&data->end_lock, NULL);

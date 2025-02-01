@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/01/31 19:33:53 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/02 00:40:31 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,21 @@
 # include <stdbool.h>
 # include <string.h>
 
-#define RED     "\x1b[31m"
-#define GREEN   "\x1b[32m"
-#define YELLOW  "\x1b[33m"
-#define BLUE    "\x1b[34m"
-#define MAGENTA "\x1b[35m"
-#define CYAN    "\x1b[36m"
-#define RESET   "\x1b[0m"
+#define RESET "\033[0m"
+#define GREEN "\033[32m"
+#define BLUE "\033[34m"
+#define YELLOW "\033[33m"
+#define CYAN "\033[36m"
+#define RED "\033[31m"
+
+typedef enum e_status
+{
+    EATING,
+    SLEEPING,
+    THINKING,
+    TAKING_FORK,
+    DIED
+} t_status;
 
 typedef struct s_data
 {
@@ -43,6 +51,8 @@ typedef struct s_data
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	end_lock;
 	pthread_t monitor_thread;
+	pthread_mutex_t start_lock;
+	int             threads_ready;
 }					t_data;
 
 typedef struct s_philo
@@ -62,9 +72,8 @@ int		init_philos(t_data *data, t_philo **philos);
 long	get_current_time(void);
 void	ft_sleep(int ms);
 int		ft_atoi(const char *str);
-void	print_status(t_philo *philo, char *msg);
+void print_status(t_philo *philo, t_status status);
 
-// Philosophe
 void	*philo_routine(void *arg);
 void	take_forks(t_philo *philo);
 void	release_forks(t_philo *philo);

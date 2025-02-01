@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/01 22:38:53 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/02 00:32:32 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,19 @@ void	*philo_routine(void *arg)
 	pthread_mutex_lock(&philo->data->start_lock);
 	philo->data->threads_ready++;
 	pthread_mutex_unlock(&philo->data->start_lock);
-	while (!philo->data->simulation_end)
+	while (1)
 	{
+		pthread_mutex_lock(&philo->data->end_lock);
+        if (philo->data->simulation_end)
+        {
+            pthread_mutex_unlock(&philo->data->end_lock);
+            break;
+        }
+        pthread_mutex_unlock(&philo->data->end_lock);
 		philo_eat(philo);
-		print_status(philo, "is sleeping");
+		print_status(philo, SLEEPING);
 		ft_sleep(philo->data->time_to_sleep);
-		print_status(philo, "is thinking");
+		print_status(philo, THINKING);
 		pthread_mutex_lock(&philo->data->end_lock);
 		if (philo->data->simulation_end)
 		{
@@ -63,7 +70,7 @@ void	*monitor(void *arg)
 		}
 		if (check_meals_complete(philos->data, philos))
 			break ;
-		usleep(100);
+		//usleep(100);
 	}
 	return (NULL);
 }

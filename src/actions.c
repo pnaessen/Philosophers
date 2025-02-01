@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/01/31 19:33:21 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/01 19:50:16 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,26 @@ void    print_status(t_philo *philo, char *msg)
     pthread_mutex_unlock(&philo->data->write_lock);
 }
 
-void	take_forks(t_philo *philo)
+void    take_forks(t_philo *philo)
 {
-	int	fork1;
-	int	fork2;
+    int first_fork;
+    int second_fork;
 
-	fork1 = (philo->id - 1) % philo->data->num_philos;
-	fork2 = philo->id % philo->data->num_philos;
-	if (fork1 > fork2)
-	{
-		int	temp = fork1;
-		fork1 = fork2;
-		fork2 = temp;
-	}
-	pthread_mutex_lock(&philo->data->forks[fork1]);
-	print_status(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->data->forks[fork2]);
-	print_status(philo, "has taken a fork");
+
+    first_fork = philo->id - 1;
+    second_fork = philo->id % philo->data->num_philos;
+
+    if (first_fork > second_fork)
+    {
+        int temp = first_fork;
+        first_fork = second_fork;
+        second_fork = temp;
+    }
+
+    pthread_mutex_lock(&philo->data->forks[first_fork]);
+    print_status(philo, "has taken a fork");
+    pthread_mutex_lock(&philo->data->forks[second_fork]);
+    print_status(philo, "has taken a fork");
 }
 
 void	release_forks(t_philo *philo)
@@ -80,3 +83,22 @@ void	philo_eat(t_philo *philo)
 	ft_sleep(philo->data->time_to_eat);
 	release_forks(philo);
 }
+
+
+// void    take_forks(t_philo *philo)
+// {
+//     if (philo->id % 2)
+//     {
+//         pthread_mutex_lock(&philo->data->forks[(philo->id - 1) % philo->data->num_philos]);
+//         print_status(philo, "has taken a fork");
+//         pthread_mutex_lock(&philo->data->forks[philo->id % philo->data->num_philos]);
+//         print_status(philo, "has taken a fork");
+//     }
+//     else
+//     {
+//         pthread_mutex_lock(&philo->data->forks[philo->id % philo->data->num_philos]);
+//         print_status(philo, "has taken a fork");
+//         pthread_mutex_lock(&philo->data->forks[(philo->id - 1) % philo->data->num_philos]);
+//         print_status(philo, "has taken a fork");
+//     }
+// }

@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:28:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/01 23:35:45 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/02 13:33:47 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,38 @@ int	main(int argc, char **argv)
 	int		i;
 
 	if (argc < 5 || argc > 6)
-		return (printf("Usage: %s number time_die time_eat time_sleep [meals]\n",
-				argv[0]), 1);
+		return (printf("Usage: %s number time_die time_eat time_sleep [meals]\n", argv[0]), 1);
 	if (init_data(&data, argc, argv) || init_philos(&data, &philos))
 		return (1);
+
 	i = -1;
 	while (++i < data.num_philos)
-		pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
-	while (1)
 	{
-		pthread_mutex_lock(&data.end_lock);
-		if (data.threads_ready == data.num_philos)
+		if (pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]) != 0)
 		{
-			pthread_mutex_unlock(&data.end_lock);
-			break ;
+			printf("Error: Failed to create philosopher thread %d\n", i);
+			free(philos);
+			free(data.forks);
+			return (1);
 		}
-		pthread_mutex_unlock(&data.end_lock);
 	}
-	
-	pthread_create(&data.monitor_thread, NULL, monitor, philos);
+	// while (1)
+	// {
+	// 	pthread_mutex_lock(&data.start_lock);
+	// 	if (data.threads_ready == data.num_philos)
+	// 	{
+	// 		pthread_mutex_unlock(&data.start_lock);
+	// 		break;
+	// 	}
+	// 	pthread_mutex_unlock(&data.start_lock);
+	// }
+	if (pthread_create(&data.monitor_thread, NULL, monitor, philos) != 0)
+	{
+		printf("Error: Failed to create monitor thread\n");
+		free(philos);
+		free(data.forks);
+		return (1);
+	}
 	i = -1;
 	while (++i < data.num_philos)
 		pthread_join(philos[i].thread, NULL);

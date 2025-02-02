@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/02 00:32:32 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/02 13:37:33 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->data->start_lock);
-	philo->data->threads_ready++;
-	pthread_mutex_unlock(&philo->data->start_lock);
+	// pthread_mutex_lock(&philo->data->start_lock);
+	// philo->data->threads_ready++;
+	// pthread_mutex_unlock(&philo->data->start_lock);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->end_lock);
@@ -58,12 +58,11 @@ void	*monitor(void *arg)
 			pthread_mutex_lock(&philos->data->meal_lock);
 			if (get_current_time() - philos[i].last_meal > philos->data->time_to_die)
 			{
-				pthread_mutex_lock(&philos->data->write_lock);
-				printf("%ld %d died\n",
-					get_current_time() - philos->data->start_time, philos[i].id);
+				//pthread_mutex_lock(&philos->data->write_lock);
+				print_status(&philos[i], DIED);
 				philos->data->simulation_end = true;
 				pthread_mutex_unlock(&philos->data->meal_lock);
-				pthread_mutex_unlock(&philos->data->write_lock);
+				// pthread_mutex_unlock(&philos->data->write_lock);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&philos->data->meal_lock);

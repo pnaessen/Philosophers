@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/02/02 00:12:21 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/02 21:27:02 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,5 @@ void	ft_sleep(int ms)
 
 	start = get_current_time();
 	while (get_current_time() - start < ms)
-		usleep(100);
+		usleep(10);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 17:07:28 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 22:09:42 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ void	take_forks(t_philo *philo)
 	print_status(philo, TAKING_FORK);
 }
 
-void	release_forks(t_philo *philo)
-{
-	int	fork1;
-	int	fork2;
+// void	release_forks(t_philo *philo)
+// {
+// 	int	fork1;
+// 	int	fork2;
 
-	fork1 = (philo->id - 1) % philo->data->num_philos;
-	fork2 = philo->id % philo->data->num_philos;
-	pthread_mutex_unlock(&philo->data->forks[fork1]);
-	pthread_mutex_unlock(&philo->data->forks[fork2]);
-}
+// 	fork1 = (philo->id - 1) % philo->data->num_philos;
+// 	fork2 = philo->id % philo->data->num_philos;
+// 	pthread_mutex_unlock(&philo->data->forks[fork1]);
+// 	pthread_mutex_unlock(&philo->data->forks[fork2]);
+// }
 
 void	philo_eat(t_philo *philo)
 {
@@ -121,3 +121,19 @@ void	philo_eat(t_philo *philo)
 // 	}
 // 	pthread_mutex_unlock(&philo->data->write_lock);
 // }
+
+void    release_forks(t_philo *philo)
+{
+	int first_fork;
+	int second_fork;
+	
+	first_fork = philo->id % philo->data->num_philos;
+	second_fork = philo->id - 1;
+	if (philo->id % 2 != 0)
+	{
+		first_fork = philo->id - 1;
+		second_fork = philo->id % philo->data->num_philos;
+	}
+	pthread_mutex_unlock(&philo->data->forks[second_fork]);
+	pthread_mutex_unlock(&philo->data->forks[first_fork]);
+}

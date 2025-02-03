@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 16:17:35 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 22:05:02 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,3 +94,27 @@ void	ft_sleep(int ms)
 	while (get_current_time() - start < ms)
 		usleep(500);
 }
+
+// bool check_meals_complete(t_data *data, t_philo *philos)
+// {
+// 	int i;
+	
+// 	if (data->max_meals == -1)
+// 		return false;
+// 	i = -1;
+// 	pthread_mutex_lock(&data->meal_lock);
+// 	while (++i < data->num_philos)
+// 	{
+// 		if (philos[i].meals_eaten < data->max_meals)
+// 		{
+// 			pthread_mutex_unlock(&data->meal_lock);
+// 			return false;
+// 		}
+// 	}
+// 	pthread_mutex_unlock(&data->meal_lock);
+// 	pthread_mutex_lock(&data->end_lock);
+// 	data->simulation_end = true;
+// 	pthread_mutex_unlock(&data->end_lock);
+
+// 	return true;
+// }

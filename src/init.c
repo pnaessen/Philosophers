@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/02/01 23:35:39 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 13:51:09 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int	init_data(t_data *data, int argc, char **argv)
 {
-	// if (data->num_philos <= 0 || data->time_to_die <= 0 || 
+	int	i;
+
+	// if (data->num_philos <= 0 || data->time_to_die <= 0 ||
 	// data->time_to_eat <= 0 || data->time_to_sleep <= 0 ||
 	// (argc == 6 && data->max_meals <= 0))
-   	// 	 return (1);
+	// 		return (1);
 	data->num_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
@@ -35,7 +37,7 @@ int	init_data(t_data *data, int argc, char **argv)
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
 	pthread_mutex_init(&data->end_lock, NULL);
-	int	i = -1;
+	i = -1;
 	while (++i < data->num_philos)
 		pthread_mutex_init(&data->forks[i], NULL);
 	return (0);
@@ -43,10 +45,12 @@ int	init_data(t_data *data, int argc, char **argv)
 
 int	init_philos(t_data *data, t_philo **philos)
 {
+	int	i;
+
 	*philos = malloc(sizeof(t_philo) * data->num_philos);
 	if (!*philos)
 		return (1);
-	int	i = -1;
+	i = -1;
 	while (++i < data->num_philos)
 	{
 		(*philos)[i].id = i + 1;
@@ -56,4 +60,3 @@ int	init_philos(t_data *data, t_philo **philos)
 	}
 	return (0);
 }
-

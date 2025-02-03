@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/02/02 21:27:02 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 13:59:02 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,24 @@ long	get_current_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-// void    ft_sleep(int ms)
+// void	ft_sleep(int ms)
 // {
-//     long    start;
-//     long    elapsed;
-//     long    remaining;
+// 	long	start;
+// 	long	elapsed;
+// 	long	remaining;
 
-//     start = get_current_time();
-//     while (1)
-//     {
-//         elapsed = get_current_time() - start;
-//         if (elapsed >= ms)
-//             break;
-//         remaining = ms - elapsed;
-//         if (remaining > 1)
-//             usleep(remaining * 1000);
-//         else
-//             usleep(1);
-//     }
+// 	start = get_current_time();
+// 	while (1)
+// 	{
+// 		elapsed = get_current_time() - start;
+// 		if (elapsed >= ms)
+// 			break ;
+// 		remaining = ms - elapsed;
+// 		if (remaining > 1)
+// 			usleep(remaining * 1000);
+// 		else
+// 			usleep(1);
+// 	}
 // }
 
 int	ft_atoi(const char *str)
@@ -80,9 +80,9 @@ bool	check_meals_complete(t_data *data, t_philo *philos)
 		}
 	}
 	pthread_mutex_unlock(&data->meal_lock);
-	//pthread_mutex_lock(&data->write_lock);
+	// pthread_mutex_lock(&data->write_lock);
 	data->simulation_end = true;
-	//pthread_mutex_unlock(&data->write_lock);
+	// pthread_mutex_unlock(&data->write_lock);
 	return (true);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:28:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/02 13:33:47 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 13:50:55 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char **argv)
 		return (1);
 
 	i = -1;
+	pthread_mutex_lock(&data.start_lock);
 	while (++i < data.num_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]) != 0)
@@ -35,9 +36,9 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 	}
+	//data.start_time = get_current_time();
 	// while (1)
 	// {
-	// 	pthread_mutex_lock(&data.start_lock);
 	// 	if (data.threads_ready == data.num_philos)
 	// 	{
 	// 		pthread_mutex_unlock(&data.start_lock);

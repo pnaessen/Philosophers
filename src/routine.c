@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 14:59:20 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 17:08:07 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,26 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	// pthread_mutex_lock(&philo->data->start_lock);
-	philo->data->threads_ready++;
-	while (1)
+	pthread_mutex_lock(&philo->data->start_lock);
+	while (philo->data->start_flag == 0)
 	{
-		if (philo->data->threads_ready == philo->data->num_philos)
-		{
-			pthread_mutex_unlock(&philo->data->start_lock);
-			break ;
-		}
+		pthread_mutex_unlock(&philo->data->start_lock);
+		usleep(100);
+		pthread_mutex_lock(&philo->data->start_lock);
 	}
-	// if (philo->id % 2 != 0)
-	// 	usleep(100);
-	// if (philo->id == philo->data->num_philos)
-	//   usleep(philo->data->time_to_eat * 1000);
+	pthread_mutex_unlock(&philo->data->start_lock);
+	if (philo->id % 2 == 0)
+		usleep(500);
 	while (1)
 	{
-		//pthread_mutex_lock(&philo->data->end_lock);
 		if (philo->data->simulation_end)
-		{
-			//pthread_mutex_unlock(&philo->data->end_lock);
 			break ;
-		}
-		//pthread_mutex_unlock(&philo->data->end_lock);
 		philo_eat(philo);
 		print_status(philo, SLEEPING);
 		ft_sleep(philo->data->time_to_sleep);
 		print_status(philo, THINKING);
-		//pthread_mutex_lock(&philo->data->end_lock);
 		if (philo->data->simulation_end)
-		{
-			//pthread_mutex_unlock(&philo->data->end_lock);
 			break ;
-		}
-		//pthread_mutex_unlock(&philo->data->end_lock);
 	}
 	return (NULL);
 }
@@ -85,3 +71,6 @@ void	*monitor(void *arg)
 	}
 	return (NULL);
 }
+
+	// if (philo->id == philo->data->num_philos)
+	//   usleep(philo->data->time_to_eat * 1000);

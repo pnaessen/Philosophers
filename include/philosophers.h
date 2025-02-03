@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 13:32:04 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 17:00:44 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				max_meals;
 	int				threads_ready;
+	int				start_flag;
 	long			start_time;
 	bool			simulation_end;
 	pthread_mutex_t	*forks;
@@ -83,4 +84,5 @@ void				philo_eat(t_philo *philo);
 void				*monitor(void *arg);
 bool				check_philo_death(t_philo *philo);
 bool				check_meals_complete(t_data *data, t_philo *philos);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 13:51:09 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 17:00:36 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	init_data(t_data *data, int argc, char **argv)
 	data->start_time = get_current_time();
 	data->simulation_end = false;
 	data->threads_ready = 0;
+	data->start_flag = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
 	if (!data->forks)
 		return (1);

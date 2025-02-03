@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 15:02:40 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 17:07:28 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,12 @@ void	take_forks(t_philo *philo)
 	int	first_fork;
 	int	second_fork;
 
-	if (philo->id % 2)
+	first_fork = philo->id % philo->data->num_philos;
+	second_fork = philo->id - 1;
+	if (philo->id % 2 != 0)
 	{
 		first_fork = philo->id - 1;
 		second_fork = philo->id % philo->data->num_philos;
-	}
-	else
-	{
-		first_fork = philo->id % philo->data->num_philos;
-		second_fork = philo->id - 1;
 	}
 	pthread_mutex_lock(&philo->data->forks[first_fork]);
 	print_status(philo, TAKING_FORK);

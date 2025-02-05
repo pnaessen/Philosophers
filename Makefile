@@ -1,12 +1,12 @@
 NAME := philo
 
-SRC:= $(addprefix $(SRC_DIR), philo.c init.c actions.c routine.c utils.c)
+SRC:= $(addprefix $(SRC_DIR), philo.c init.c actions.c routine.c utils.c monitor.c time.c)
 OBJ_DIR:= .obj/
 OBJ:= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 DEPS:= $(OBJ:%.o=%.d)
 
 CC:= cc
-CCFLAGS:= -Wextra -Wall -Werror -pthread
+CCFLAGS:= -Wextra -Wall -Werror -pthread -o3
 CPPFLAGS = -MMD -MP
 SRC_DIR:= src/
 INCLUDES:= include/

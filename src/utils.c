@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 22:05:02 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 10:59:41 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-long	get_current_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-// void	ft_sleep(int ms)
-// {
-// 	long	start;
-// 	long	elapsed;
-// 	long	remaining;
-
-// 	start = get_current_time();
-// 	while (1)
-// 	{
-// 		elapsed = get_current_time() - start;
-// 		if (elapsed >= ms)
-// 			break ;
-// 		remaining = ms - elapsed;
-// 		if (remaining > 1)
-// 			usleep(remaining * 1000);
-// 		else
-// 			usleep(1);
-// 	}
-// }
 
 int	ft_atoi(const char *str)
 {
@@ -63,44 +35,43 @@ int	ft_atoi(const char *str)
 	return (res * sign);
 }
 
-bool	check_meals_complete(t_data *data, t_philo *philos)
+bool	should_stop(t_data *data)
 {
-	int	i;
+	bool	stop;
 
-	if (data->max_meals == -1)
-		return (false);
-	i = -1;
-	pthread_mutex_lock(&data->meal_lock);
-	while (++i < data->num_philos)
+	pthread_mutex_lock(&data->end_lock);
+	stop = data->simulation_end;
+	pthread_mutex_unlock(&data->end_lock);
+	return (stop);
+}
+
+void	update_last_meal(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->meal_lock);
+	philo->last_meal = get_current_time();
+	pthread_mutex_unlock(&philo->data->meal_lock);
+}
+
+bool	check_all_meals_complete(t_data *data)
+{
+	bool	complete;
+
+	complete = false;
+	if (data->max_meals > 0)
 	{
-		if (philos[i].meals_eaten < data->max_meals)
-		{
-			pthread_mutex_unlock(&data->meal_lock);
-			return (false);
-		}
+		pthread_mutex_lock(&data->meals_complete_lock);
+		complete = (data->meals_completed >= data->num_philos);
+		pthread_mutex_unlock(&data->meals_complete_lock);
 	}
-	pthread_mutex_unlock(&data->meal_lock);
-	// pthread_mutex_lock(&data->write_lock);
-	data->simulation_end = true;
-	// pthread_mutex_unlock(&data->write_lock);
-	return (true);
+	return (complete);
 }
 
-void	ft_sleep(int ms)
-{
-	long long	start;
-
-	start = get_current_time();
-	while (get_current_time() - start < ms)
-		usleep(500);
-}
-
-// bool check_meals_complete(t_data *data, t_philo *philos)
+// bool	check_meals_complete(t_data *data, t_philo *philos)
 // {
-// 	int i;
-	
+// 	int	i;
+
 // 	if (data->max_meals == -1)
-// 		return false;
+// 		return (false);
 // 	i = -1;
 // 	pthread_mutex_lock(&data->meal_lock);
 // 	while (++i < data->num_philos)
@@ -108,13 +79,12 @@ void	ft_sleep(int ms)
 // 		if (philos[i].meals_eaten < data->max_meals)
 // 		{
 // 			pthread_mutex_unlock(&data->meal_lock);
-// 			return false;
+// 			return (false);
 // 		}
 // 	}
 // 	pthread_mutex_unlock(&data->meal_lock);
 // 	pthread_mutex_lock(&data->end_lock);
 // 	data->simulation_end = true;
 // 	pthread_mutex_unlock(&data->end_lock);
-
-// 	return true;
+// 	return (true);
 // }

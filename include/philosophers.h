@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 17:00:44 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 09:20:30 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ typedef struct s_data
 	int				max_meals;
 	int				threads_ready;
 	int				start_flag;
+	int				meals_completed;
 	long			start_time;
 	bool			simulation_end;
+	pthread_mutex_t	meals_complete_lock;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
@@ -65,24 +67,39 @@ typedef struct s_philo
 	t_data			*data;
 }					t_philo;
 
-// Initialisation
+/////////actions.c/////
+void				print_status(t_philo *philo, t_status status);
+void				philo_eat(t_philo *philo);
+void				take_forks(t_philo *philo);
+void				release_forks(t_philo *philo);
+void				increment_meals(t_philo *philo);
+
+///////////init.c/////////////
 int					init_data(t_data *data, int argc, char **argv);
 int					init_philos(t_data *data, t_philo **philos);
 
-// Utilitaires
+//////////monitor.c////////////
+bool				check_philo_death(t_philo *philo);
+bool				check_any_death(t_philo *philos);
+void				*monitor(void *arg);
+void				set_simulation_end(t_data *data);
+
+/////////routine.c////////////
+void				*philo_routine(void *arg);
+void				eat_routine(t_philo *philo);
+
+/////////time.c////////////
 long				get_current_time(void);
 void				ft_sleep(int ms);
+long				get_ms_since_start(t_data *data);
+void				smart_sleep(long duration, t_data *data);
+void				sleep_and_think(t_philo *philo);
+
+////////////utils.c///////////
 int					ft_atoi(const char *str);
-void				print_status(t_philo *philo, t_status status);
-
-void				*philo_routine(void *arg);
-void				take_forks(t_philo *philo);
-void				release_forks(t_philo *philo);
-void				philo_eat(t_philo *philo);
-
-// Monitoring
-void				*monitor(void *arg);
-bool				check_philo_death(t_philo *philo);
-bool				check_meals_complete(t_data *data, t_philo *philos);
+// bool	check_meals_complete(t_data *data, t_philo *philos);
+bool				should_stop(t_data *data);
+void				update_last_meal(t_philo *philo);
+bool				check_all_meals_complete(t_data *data);
 
 #endif

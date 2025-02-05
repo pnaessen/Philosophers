@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:28:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/03 21:46:57 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 10:59:24 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	main(int argc, char **argv)
 	int		i;
 
 	if (argc < 5 || argc > 6)
-		return (printf("Usage:%s number time_die time_eat time_sleep [meals]\n", argv[0]), 1);
+		return (printf("Usage:%s number time_die time_eat time_sleep [meals]\n",
+				argv[0]), 1);
 	if (init_data(&data, argc, argv) || init_philos(&data, &philos))
 		return (1);
 	i = -1;
@@ -52,6 +53,7 @@ int	main(int argc, char **argv)
 	pthread_mutex_destroy(&data.meal_lock);
 	pthread_mutex_destroy(&data.end_lock);
 	pthread_mutex_destroy(&data.start_lock);
+	pthread_mutex_destroy(&data.meals_complete_lock);
 	i = -1;
 	while (++i < data.num_philos)
 		pthread_mutex_destroy(&data.forks[i]);

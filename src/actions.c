@@ -13,19 +13,20 @@
 #include "philosophers.h"
 
 void	print_status(t_philo *philo, t_status status)
-		// need add a mutex for lock
 {
 	long timestamp;
 	char *colors[] = {GREEN, BLUE, YELLOW, CYAN, RED};
 	char *status_messages[] = {"is eating", "is sleeping", "is thinking",
 		"has taken a fork", "died"};
 
+	pthread_mutex_lock(&philo->data->write_lock);
 	if (!philo->data->simulation_end)
 	{
 		timestamp = get_current_time() - philo->data->start_time;
 		printf("%s[%5ld ms] Philosopher %d %s %s\n", colors[status], timestamp,
 			philo->id, status_messages[status], RESET);
 	}
+	pthread_mutex_unlock(&philo->data->write_lock);
 }
 
 void	take_forks(t_philo *philo)

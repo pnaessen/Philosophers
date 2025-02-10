@@ -31,9 +31,9 @@ int	init_data(t_data *data, int argc, char **argv)
 	if (!data->forks || data->num_philos <= 0 || (argc == 6 && data->max_meals <= 0))
 		return (1);
 	pthread_mutex_init(&data->start_lock, NULL);
-	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
 	pthread_mutex_init(&data->end_lock, NULL);
+	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meals_complete_lock, NULL);
 	i = -1;
 	while (++i < data->num_philos)

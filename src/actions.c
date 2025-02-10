@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/10 09:26:31 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 09:52:27 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	print_status(t_philo *philo, t_status status)
 			philo->id, status_messages[status], RESET);
 		//pthread_mutex_unlock(&philo->data->write_lock);
 	}
+	pthread_mutex_unlock(&philo->data->write_lock);
 }
 
 void	take_forks(t_philo *philo)

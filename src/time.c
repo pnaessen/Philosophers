@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:04:17 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/02/05 16:18:33 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 10:05:58 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	smart_sleep(long duration, t_data *data)
 		elapsed = get_current_time() - start;
 		if (elapsed >= duration)
 			break ;
-		 usleep(300);
+		usleep(300);
 	}
 }
 

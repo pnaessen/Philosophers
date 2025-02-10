@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 20:57:42 by pn                #+#    #+#             */
-/*   Updated: 2025/02/05 11:56:08 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 13:59:24 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	*monitor(void *arg)
 	{
 		if (check_any_death(philos) || check_all_meals_complete(philos->data))
 		{
+			//pthread_mutex_lock(&philos->data->end_lock);
 			set_simulation_end(philos->data);
+			//pthread_mutex_inlock(&philos->data->end_lock);
 			break ;
 		}
 		usleep(500);

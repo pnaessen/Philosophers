@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/02/05 10:40:24 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 13:50:12 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	init_data(t_data *data, int argc, char **argv)
 		return (1);
 	pthread_mutex_init(&data->start_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
-	pthread_mutex_init(&data->end_lock, NULL);
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meals_complete_lock, NULL);
+	pthread_mutex_init(&data->end_lock, NULL);
 	i = -1;
 	while (++i < data->num_philos)
 		pthread_mutex_init(&data->forks[i], NULL);

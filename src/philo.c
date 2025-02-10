@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:28:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/10 09:29:34 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 13:50:14 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	main(int argc, char **argv)
 		pthread_join(philos[i].thread, NULL);
 	pthread_join(data.monitor_thread, NULL);
 	pthread_mutex_destroy(&data.start_lock);
-	pthread_mutex_destroy(&data.write_lock);
 	pthread_mutex_destroy(&data.meal_lock);
-	pthread_mutex_destroy(&data.end_lock);
+	pthread_mutex_destroy(&data.write_lock);
 	pthread_mutex_destroy(&data.meals_complete_lock);
+	pthread_mutex_destroy(&data.end_lock);
 	i = -1;
 	while (++i < data.num_philos)
 		pthread_mutex_destroy(&data.forks[i]);

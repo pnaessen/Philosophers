@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/10 09:52:27 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 16:10:30 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ void	print_status(t_philo *philo, t_status status)
 	char	*status_messages[] = {"is eating", "is sleeping", "is thinking",
 			"has taken a fork", "died"};
 
-	//pthread_mutex_lock(&philo->data->write_lock);
+	pthread_mutex_lock(&philo->data->write_lock);
 	if (!philo->data->simulation_end)
 	{
 		timestamp = get_current_time() - philo->data->start_time;
 		printf("%s[%5ld ms] Philosopher %d %s %s\n", colors[status], timestamp,
 			philo->id, status_messages[status], RESET);
-		//pthread_mutex_unlock(&philo->data->write_lock);
 	}
 	pthread_mutex_unlock(&philo->data->write_lock);
 }
@@ -35,12 +34,15 @@ void	take_forks(t_philo *philo)
 	int	first_fork;
 	int	second_fork;
 
-	first_fork = philo->id % philo->data->num_philos;
-	second_fork = philo->id - 1;
 	if (philo->id % 2 != 0)
 	{
 		first_fork = philo->id - 1;
 		second_fork = philo->id % philo->data->num_philos;
+	}
+	else
+	{
+		first_fork = philo->id % philo->data->num_philos;
+		second_fork = philo->id - 1;
 	}
 	pthread_mutex_lock(&philo->data->forks[first_fork]);
 	print_status(philo, TAKING_FORK);
@@ -53,19 +55,34 @@ void	release_forks(t_philo *philo)
 	int	first_fork;
 	int	second_fork;
 
-	first_fork = philo->id % philo->data->num_philos;
-	second_fork = philo->id - 1;
 	if (philo->id % 2 != 0)
 	{
 		first_fork = philo->id - 1;
 		second_fork = philo->id % philo->data->num_philos;
 	}
+	else
+	{
+		first_fork = philo->id % philo->data->num_philos;
+		second_fork = philo->id - 1;
+	}
 	pthread_mutex_unlock(&philo->data->forks[second_fork]);
 	pthread_mutex_unlock(&philo->data->forks[first_fork]);
 }
 
+void	increment_meals(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->meal_lock);
+	philo->meals_eaten++;
+	if (philo->data->max_meals > 0
+		&& philo->meals_eaten == philo->data->max_meals)
+	{
+		pthread_mutex_lock(&philo->data->meals_complete_lock);
+		philo->data->meals_completed++;
+		pthread_mutex_unlock(&philo->data->meals_complete_lock);
+	}
+	pthread_mutex_unlock(&philo->data->meal_lock);
+}
 // void	take_forks(t_philo *philo)
-// faire plutot une boucle while pour que chqaue thread esaye de prendre une fourchaite sinon mutex unlock
 // {
 // 	int	left;
 // 	int	right;
@@ -107,20 +124,6 @@ void	release_forks(t_philo *philo)
 // 	pthread_mutex_unlock(&philo->data->forks[left]);
 // 	pthread_mutex_unlock(&philo->data->forks[right]);
 // }
-
-void	increment_meals(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->meal_lock);
-	philo->meals_eaten++;
-	if (philo->data->max_meals > 0
-		&& philo->meals_eaten == philo->data->max_meals)
-	{
-		pthread_mutex_lock(&philo->data->meals_complete_lock);
-		philo->data->meals_completed++;
-		pthread_mutex_unlock(&philo->data->meals_complete_lock);
-	}
-	pthread_mutex_unlock(&philo->data->meal_lock);
-}
 
 // void	philo_eat(t_philo *philo)
 // {

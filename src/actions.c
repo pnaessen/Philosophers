@@ -15,10 +15,15 @@
 void	print_status(t_philo *philo, t_status status)
 {
 	long	timestamp;
-	char	*colors[] = {GREEN, BLUE, YELLOW, CYAN, RED};
-	char	*status_messages[] = {"is eating", "is sleeping", "is thinking",
+	char	*colors[5] = {GREEN, BLUE, YELLOW, CYAN, RED};
+	char	*status_messages[5] = {"is eating", "is sleeping", "is thinking",
 			"has taken a fork", "died"};
 
+	pthread_mutex_lock(&philo->data->end_lock);
+	sim_end = philo->data->simulation_end;
+	pthread_mutex_unlock(&philo->data->end_lock);
+	if (sim_end)
+		return;
 	pthread_mutex_lock(&philo->data->write_lock);
 	if (!philo->data->simulation_end)
 	{

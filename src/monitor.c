@@ -33,7 +33,9 @@ bool	check_any_death(t_philo *philos)
 	{
 		if (check_philo_death(&philos[i]))
 		{
+			pthread_mutex_lock(&philos[i].data->write_lock); 
 			print_status(&philos[i], DIED);
+			pthread_mutex_unlock(&philos[i].data->write_lock);
 			return (true);
 		}
 		i++;
@@ -65,6 +67,30 @@ void	set_simulation_end(t_data *data)
 	pthread_mutex_lock(&data->end_lock);
 	data->simulation_end = true;
 	pthread_mutex_unlock(&data->end_lock);
+}
+
+bool	should_stop(t_data *data)
+{
+	bool	stop;
+
+	pthread_mutex_lock(&data->end_lock);
+	stop = data->simulation_end;
+	pthread_mutex_unlock(&data->end_lock);
+	return (stop);
+}
+
+bool	check_all_meals_complete(t_data *data)
+{
+	bool	complete;
+
+	complete = false;
+	if (data->max_meals > 0)
+	{
+		pthread_mutex_lock(&data->meals_complete_lock);
+		complete = (data->meals_completed >= data->num_philos);
+		pthread_mutex_unlock(&data->meals_complete_lock);
+	}
+	return (complete);
 }
 
 // void	*monitor(void *arg)

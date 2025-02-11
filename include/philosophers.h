@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/02/05 09:20:30 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/11 11:00:13 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,17 @@ void				sleep_and_think(t_philo *philo);
 
 ////////////utils.c///////////
 int					ft_atoi(const char *str);
-// bool	check_meals_complete(t_data *data, t_philo *philos);
 bool				should_stop(t_data *data);
 void				update_last_meal(t_philo *philo);
 bool				check_all_meals_complete(t_data *data);
+void				cleanup_resources(t_data *data, t_philo *philos, bool exit);
+
+/////////////tools.c///////////
+int					check_args(int argc);
+int					init_simu(t_data *data, int argc, char **argv,
+						t_philo **philos);
+int					create_threads(t_data *data, t_philo *philos);
+void				start_simu(t_data *data);
+void				join_threads(t_data *data, t_philo *philos);
 
 #endif

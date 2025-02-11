@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/02/05 10:59:41 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/11 11:09:06 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,32 @@ int	ft_atoi(const char *str)
 	return (res * sign);
 }
 
+void	update_last_meal(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->meal_lock);
+	philo->last_meal = get_current_time();
+	pthread_mutex_unlock(&philo->data->meal_lock);
+}
+
+void	cleanup_resources(t_data *data, t_philo *philos, bool exit)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->num_philos)
+		pthread_mutex_destroy(&data->forks[i]);
+	pthread_mutex_destroy(&data->start_lock);
+	pthread_mutex_destroy(&data->meal_lock);
+	pthread_mutex_destroy(&data->write_lock);
+	pthread_mutex_destroy(&data->meals_complete_lock);
+	pthread_mutex_destroy(&data->end_lock);
+	if (exit)
+	{
+		free(philos);
+		free(data->forks);
+	}
+}
+
 bool	should_stop(t_data *data)
 {
 	bool	stop;
@@ -43,13 +69,6 @@ bool	should_stop(t_data *data)
 	stop = data->simulation_end;
 	pthread_mutex_unlock(&data->end_lock);
 	return (stop);
-}
-
-void	update_last_meal(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->meal_lock);
-	philo->last_meal = get_current_time();
-	pthread_mutex_unlock(&philo->data->meal_lock);
 }
 
 bool	check_all_meals_complete(t_data *data)
@@ -65,26 +84,3 @@ bool	check_all_meals_complete(t_data *data)
 	}
 	return (complete);
 }
-
-// bool	check_meals_complete(t_data *data, t_philo *philos)
-// {
-// 	int	i;
-
-// 	if (data->max_meals == -1)
-// 		return (false);
-// 	i = -1;
-// 	pthread_mutex_lock(&data->meal_lock);
-// 	while (++i < data->num_philos)
-// 	{
-// 		if (philos[i].meals_eaten < data->max_meals)
-// 		{
-// 			pthread_mutex_unlock(&data->meal_lock);
-// 			return (false);
-// 		}
-// 	}
-// 	pthread_mutex_unlock(&data->meal_lock);
-// 	pthread_mutex_lock(&data->end_lock);
-// 	data->simulation_end = true;
-// 	pthread_mutex_unlock(&data->end_lock);
-// 	return (true);
-// }

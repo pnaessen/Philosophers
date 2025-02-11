@@ -1,6 +1,6 @@
 NAME := philo
 
-SRC:= $(addprefix $(SRC_DIR), philo.c init.c actions.c routine.c utils.c monitor.c time.c)
+SRC:= $(addprefix $(SRC_DIR), philo.c init.c actions.c routine.c utils.c monitor.c time.c tools.c)
 OBJ_DIR:= .obj/
 OBJ:= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 DEPS:= $(OBJ:%.o=%.d)

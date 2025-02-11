@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/10 16:10:30 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/11 13:11:00 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	print_status(t_philo *philo, t_status status)
 	char	*colors[5] = {GREEN, BLUE, YELLOW, CYAN, RED};
 	char	*status_messages[5] = {"is eating", "is sleeping", "is thinking",
 			"has taken a fork", "died"};
-
+	bool sim_end;
+	
 	pthread_mutex_lock(&philo->data->end_lock);
 	sim_end = philo->data->simulation_end;
 	pthread_mutex_unlock(&philo->data->end_lock);
@@ -87,57 +88,3 @@ void	increment_meals(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->data->meal_lock);
 }
-// void	take_forks(t_philo *philo)
-// {
-// 	int	left;
-// 	int	right;
-// 	while (1)
-// 	{
-
-// 	}
-// 	if (philo->id == 1)
-// 	{
-// 		left = philo->data->num_philos - 1;
-// 		right = 0;
-// 	}
-// 	else
-// 	{
-// 		left = ((philo->id - 2) % philo->data->num_philos);
-// 		right = ((philo->id - 1) % philo->data->num_philos);
-// 	}
-// 	pthread_mutex_lock(&philo->data->forks[left]);
-// 	print_status(philo, TAKING_FORK);
-// 	pthread_mutex_lock(&philo->data->forks[right]);
-// 	print_status(philo, TAKING_FORK);
-// }
-
-// void	release_forks(t_philo *philo)
-// {
-// 	int	left;
-// 	int	right;
-
-// 	if (philo->id == 1)
-// 	{
-// 		left = philo->data->num_philos - 1;
-// 		right = 0;
-// 	}
-// 	else
-// 	{
-// 		left = ((philo->id - 2) % philo->data->num_philos);
-// 		right = ((philo->id - 1) % philo->data->num_philos);
-// 	}
-// 	pthread_mutex_unlock(&philo->data->forks[left]);
-// 	pthread_mutex_unlock(&philo->data->forks[right]);
-// }
-
-// void	philo_eat(t_philo *philo)
-// {
-// 	take_forks(philo);
-// 	print_status(philo, EATING);
-// 	pthread_mutex_lock(&philo->data->meal_lock);
-// 	philo->last_meal = get_current_time();
-// 	philo->meals_eaten++;
-// 	pthread_mutex_unlock(&philo->data->meal_lock);
-// 	ft_sleep(philo->data->time_to_eat);
-// 	release_forks(philo);
-// }

@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 20:57:42 by pn                #+#    #+#             */
-/*   Updated: 2025/02/11 13:07:28 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 10:04:33 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	check_any_death(t_philo *philos)
 	}
 	return (false);
 }
-	
+
 void	*monitor(void *arg)
 {
 	t_philo	*philos;

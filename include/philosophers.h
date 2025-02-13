@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/02/11 11:00:13 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 11:17:17 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
+	int				left_fork;
+	int				right_fork;
 	pthread_t		thread;
 	long			last_meal;
 	int				meals_eaten;
@@ -69,9 +71,6 @@ typedef struct s_philo
 
 /////////actions.c/////
 void				print_status(t_philo *philo, t_status status);
-void				philo_eat(t_philo *philo);
-void				take_forks(t_philo *philo);
-void				release_forks(t_philo *philo);
 void				increment_meals(t_philo *philo);
 
 ///////////init.c/////////////
@@ -87,10 +86,10 @@ void				set_simulation_end(t_data *data);
 /////////routine.c////////////
 void				*philo_routine(void *arg);
 void				eat_routine(t_philo *philo);
+void				wait_for_start(t_philo *philo);
 
 /////////time.c////////////
 long				get_current_time(void);
-void				ft_sleep(int ms);
 long				get_ms_since_start(t_data *data);
 void				smart_sleep(long duration, t_data *data);
 void				sleep_and_think(t_philo *philo);

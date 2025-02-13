@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/11 13:11:00 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 10:45:16 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	print_status(t_philo *philo, t_status status)
 	char	*colors[5] = {GREEN, BLUE, YELLOW, CYAN, RED};
 	char	*status_messages[5] = {"is eating", "is sleeping", "is thinking",
 			"has taken a fork", "died"};
-	bool sim_end;
-	
+	bool	sim_end;
+
 	pthread_mutex_lock(&philo->data->end_lock);
 	sim_end = philo->data->simulation_end;
 	pthread_mutex_unlock(&philo->data->end_lock);
 	if (sim_end)
-		return;
+		return ;
 	pthread_mutex_lock(&philo->data->write_lock);
 	if (!philo->data->simulation_end)
 	{
@@ -33,46 +33,6 @@ void	print_status(t_philo *philo, t_status status)
 			philo->id, status_messages[status], RESET);
 	}
 	pthread_mutex_unlock(&philo->data->write_lock);
-}
-
-void	take_forks(t_philo *philo)
-{
-	int	first_fork;
-	int	second_fork;
-
-	if (philo->id % 2 != 0)
-	{
-		first_fork = philo->id - 1;
-		second_fork = philo->id % philo->data->num_philos;
-	}
-	else
-	{
-		first_fork = philo->id % philo->data->num_philos;
-		second_fork = philo->id - 1;
-	}
-	pthread_mutex_lock(&philo->data->forks[first_fork]);
-	print_status(philo, TAKING_FORK);
-	pthread_mutex_lock(&philo->data->forks[second_fork]);
-	print_status(philo, TAKING_FORK);
-}
-
-void	release_forks(t_philo *philo)
-{
-	int	first_fork;
-	int	second_fork;
-
-	if (philo->id % 2 != 0)
-	{
-		first_fork = philo->id - 1;
-		second_fork = philo->id % philo->data->num_philos;
-	}
-	else
-	{
-		first_fork = philo->id % philo->data->num_philos;
-		second_fork = philo->id - 1;
-	}
-	pthread_mutex_unlock(&philo->data->forks[second_fork]);
-	pthread_mutex_unlock(&philo->data->forks[first_fork]);
 }
 
 void	increment_meals(t_philo *philo)

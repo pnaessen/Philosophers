@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:04:17 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/02/11 11:07:55 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 11:18:41 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 long	get_current_time(void)
 {
 	struct timeval	tv;
+	long			time;
 
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	return (time);
 }
 
 long	get_ms_since_start(t_data *data)
 {
-	return (get_current_time() - data->start_time);
+	long	time;
+
+	time = get_current_time() - data->start_time;
+	return (time);
 }
 
 void	smart_sleep(long duration, t_data *data)

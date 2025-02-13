@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:28:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/11 11:15:45 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 11:15:20 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int argc, char **argv)
 	t_data	data;
 	t_philo	*philos;
 
+	philos = NULL;
 	if (!check_args(argc))
 		return (1);
 	if (init_simu(&data, argc, argv, &philos) != 0)

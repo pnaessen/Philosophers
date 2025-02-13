@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:54:20 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/02/13 11:09:54 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 12:28:09 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	check_args(int argc)
 
 int	init_simu(t_data *data, int argc, char **argv, t_philo **philos)
 {
+	data->meals_completed = 0;
 	if (init_data(data, argc, argv) != 0 || init_philos(data, philos) != 0)
 		return (1);
 	data->start_time = get_current_time();

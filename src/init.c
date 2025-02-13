@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/02/13 11:04:22 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 12:27:39 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	init_philos(t_data *data, t_philo **philos)
 	*philos = malloc(sizeof(t_philo) * data->num_philos);
 	if (!*philos)
 		return (1);
-	//memset((void *)philos, 0, data->num_philos * sizeof(t_philo));
 	i = -1;
 	while (++i < data->num_philos)
 	{

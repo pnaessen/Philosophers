@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/02/13 11:17:17 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/14 13:42:52 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void				set_simulation_end(t_data *data);
 void				*philo_routine(void *arg);
 void				eat_routine(t_philo *philo);
 void				wait_for_start(t_philo *philo);
+void				handle_nietzsche(t_philo *philo);
 
 /////////time.c////////////
 long				get_current_time(void);

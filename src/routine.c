@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/13 11:16:56 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/14 13:45:35 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	wait_for_start(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->start_lock);
 		usleep(100);
 		pthread_mutex_lock(&philo->data->start_lock);
+		if(philo->data->simulation_end)
+			return ;
 	}
 	pthread_mutex_unlock(&philo->data->start_lock);
 }
@@ -31,6 +33,11 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	update_last_meal(philo);
 	wait_for_start(philo);
+	if (philo->data->num_philos == 1)
+	{
+		handle_nietzsche(philo);
+		return (NULL);
+	}
 	if (philo->id % 2 == 0)
 		usleep(500);
 	while (!should_stop(philo->data))
@@ -72,4 +79,11 @@ void	eat_routine(t_philo *philo)
 	smart_sleep(data->time_to_eat, data);
 	pthread_mutex_unlock(&data->forks[philo->left_fork]);
 	pthread_mutex_unlock(&data->forks[philo->right_fork]);
+}
+
+void	handle_nietzsche(t_philo *philo)
+{
+	print_status(philo, TAKING_FORK);
+	while (!should_stop(philo->data))
+		usleep(100);
 }

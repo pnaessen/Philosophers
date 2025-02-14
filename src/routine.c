@@ -14,16 +14,23 @@
 
 void	wait_for_start(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->start_lock);
-	while (!philo->data->start_flag)
+	bool	start;
+	bool	end;
+
+	while (true)
 	{
-		pthread_mutex_unlock(&philo->data->start_lock);
-		usleep(100);
 		pthread_mutex_lock(&philo->data->start_lock);
-		if(philo->data->simulation_end)
+		start = philo->data->start_flag;
+		pthread_mutex_unlock(&philo->data->start_lock);
+		if (start)
+			break ;
+		pthread_mutex_lock(&philo->data->end_lock);
+		end = philo->data->simulation_end;
+		pthread_mutex_unlock(&philo->data->end_lock);
+		if (end)
 			return ;
+		usleep(100);
 	}
-	pthread_mutex_unlock(&philo->data->start_lock);
 }
 
 void	*philo_routine(void *arg)

@@ -6,32 +6,48 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/13 10:45:16 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/15 14:06:39 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+void	init_messages(char *colors[5], char *status_messages[5])
+{
+	colors[0] = GREEN;
+	colors[1] = BLUE;
+	colors[2] = YELLOW;
+	colors[3] = CYAN;
+	colors[4] = RED;
+	status_messages[0] = "is eating";
+	status_messages[1] = "is sleeping";
+	status_messages[2] = "is thinking";
+	status_messages[3] = "has taken a fork";
+	status_messages[4] = "died";
+}
+
 void	print_status(t_philo *philo, t_status status)
 {
 	long	timestamp;
-	char	*colors[5] = {GREEN, BLUE, YELLOW, CYAN, RED};
-	char	*status_messages[5] = {"is eating", "is sleeping", "is thinking",
-			"has taken a fork", "died"};
+	char	*colors[5];
+	char	*status_messages[5];
 	bool	sim_end;
 
+	init_messages(colors, status_messages);
 	pthread_mutex_lock(&philo->data->end_lock);
 	sim_end = philo->data->simulation_end;
 	pthread_mutex_unlock(&philo->data->end_lock);
 	if (sim_end)
 		return ;
 	pthread_mutex_lock(&philo->data->write_lock);
-	if (!philo->data->simulation_end)
+	if (philo->data->simulation_end)
 	{
-		timestamp = get_current_time() - philo->data->start_time;
-		printf("%s[%5ld ms] Philosopher %d %s %s\n", colors[status], timestamp,
-			philo->id, status_messages[status], RESET);
+		pthread_mutex_unlock(&philo->data->write_lock);
+		return ;
 	}
+	timestamp = get_current_time() - philo->data->start_time;
+	printf("%s[%5ld ms] Philosopher %d %s %s\n", colors[status], timestamp,
+		philo->id, status_messages[status], RESET);
 	pthread_mutex_unlock(&philo->data->write_lock);
 }
 

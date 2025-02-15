@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/02/15 14:56:01 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/15 15:23:57 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void				increment_meals(t_philo *philo);
 ///////////init.c/////////////
 int					init_data(t_data *data, int argc, char **argv);
 int					init_philos(t_data *data, t_philo **philos);
+int					ft_isdigit(char *str);
 
 //////////monitor.c////////////
 bool				check_philo_death(t_philo *philo);
@@ -103,7 +104,7 @@ bool				check_all_meals_complete(t_data *data);
 void				cleanup_resources(t_data *data, t_philo *philos, bool exit);
 
 /////////////tools.c///////////
-int					check_args(int argc);
+int					check_args(int argc, char **argv);
 int					init_simu(t_data *data, int argc, char **argv,
 						t_philo **philos);
 int					create_threads(t_data *data, t_philo *philos);

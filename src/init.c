@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/02/15 14:55:54 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/15 15:27:15 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,18 @@ int	init_philos(t_data *data, t_philo **philos)
 		(*philos)[i].right_fork = (i + 1) % data->num_philos;
 	}
 	return (0);
+}
+
+int	ft_isdigit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (0);
+		i++;
+	}
+	return (1);
 }

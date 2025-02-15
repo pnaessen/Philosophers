@@ -6,18 +6,30 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:54:20 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/02/14 13:09:15 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/15 15:30:25 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	check_args(int argc)
+int	check_args(int argc, char **argv)
 {
+	int	i;
+
+	i = 1;
 	if (argc < 5 || argc > 6)
 	{
 		printf("Usage: ./philo philo_count t_die t_eat t_sleep [meals]\n");
 		return (0);
+	}
+	while (i < argc)
+	{
+		if (ft_isdigit(argv[i]) == 0)
+		{
+			printf("Only digit!!");
+			return (0);
+		}
+		i++;
 	}
 	return (1);
 }
@@ -34,8 +46,11 @@ int	init_simu(t_data *data, int argc, char **argv, t_philo **philos)
 void	handle_creation_error(t_data *data, t_philo *philos, int last_index)
 {
 	set_simulation_end(data);
-	while (last_index-- >= 0)
+	while (last_index >= 0)
+	{
 		pthread_join(philos[last_index].thread, NULL);
+		last_index--;
+	}
 }
 
 int	create_philo_threads(t_data *data, t_philo *philos)

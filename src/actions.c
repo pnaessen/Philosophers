@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/15 14:06:39 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/17 21:58:01 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,11 @@ void	print_status(t_philo *philo, t_status status)
 	long	timestamp;
 	char	*colors[5];
 	char	*status_messages[5];
-	bool	sim_end;
 
 	init_messages(colors, status_messages);
-	pthread_mutex_lock(&philo->data->end_lock);
-	sim_end = philo->data->simulation_end;
-	pthread_mutex_unlock(&philo->data->end_lock);
-	if (sim_end)
+	if (should_stop	(philo->data))
 		return ;
 	pthread_mutex_lock(&philo->data->write_lock);
-	if (philo->data->simulation_end)
-	{
-		pthread_mutex_unlock(&philo->data->write_lock);
-		return ;
-	}
 	timestamp = get_current_time() - philo->data->start_time;
 	printf("%s[%5ld ms] Philosopher %d %s %s\n", colors[status], timestamp,
 		philo->id, status_messages[status], RESET);

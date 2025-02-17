@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:54:20 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/02/15 15:30:25 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/17 21:46:15 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ int	check_args(int argc, char **argv)
 	}
 	while (i < argc)
 	{
+		if (!argv[i][0])
+		{
+			printf("empty!!");
+			return (0);
+		}
 		if (ft_isdigit(argv[i]) == 0)
 		{
 			printf("Only digit!!");
@@ -36,7 +41,12 @@ int	check_args(int argc, char **argv)
 
 int	init_simu(t_data *data, int argc, char **argv, t_philo **philos)
 {
+	data->num_philos = ft_atoi(argv[1]);
+	data->time_to_die = ft_atoi(argv[2]);
+	data->time_to_eat = ft_atoi(argv[3]);
+	data->time_to_sleep = ft_atoi(argv[4]);
 	data->meals_completed = 0;
+	data->simulation_end = false;
 	if (init_data(data, argc, argv) != 0 || init_philos(data, philos) != 0)
 		return (1);
 	data->start_time = get_current_time();

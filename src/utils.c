@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/02/13 10:54:18 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/17 21:47:11 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	cleanup_resources(t_data *data, t_philo *philos, bool exit)
 	pthread_mutex_destroy(&data->meal_lock);
 	pthread_mutex_destroy(&data->write_lock);
 	pthread_mutex_destroy(&data->meals_complete_lock);
+	pthread_mutex_destroy(&data->mutex_eat);
 	pthread_mutex_destroy(&data->end_lock);
 	if (exit)
 	{

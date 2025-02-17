@@ -66,4 +66,6 @@ info:
 	@echo "DEPS": $(DEPS)
 	@echo "$(GREEN)💡 « La connaissance est la lumière qui éclaire notre chemin. » - Aristote $(DEF_COLOR)"
 
+-include $(DEPS)
+
 .PHONY: all clean fclean re

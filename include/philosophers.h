@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/02/15 15:23:57 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/17 21:48:36 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_data
 	long			start_time;
 	bool			simulation_end;
 	pthread_mutex_t	meals_complete_lock;
+	pthread_mutex_t	mutex_eat;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;

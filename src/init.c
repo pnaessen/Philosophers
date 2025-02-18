@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/02/17 21:37:28 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 10:49:22 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	init_data(t_data *data, int argc, char **argv)
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
 	if (!data->forks || data->num_philos <= 0 || (argc == 6
 			&& data->max_meals <= 0))
-		{
-			if (data->forks)
-				free(data->forks);
-			return (1);
-		}
+	{
+		if (data->forks)
+			free(data->forks);
+		return (1);
+	}
 	pthread_mutex_init(&data->start_lock, NULL);
 	pthread_mutex_init(&data->mutex_eat, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);

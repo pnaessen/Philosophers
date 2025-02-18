@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:17:52 by pn                #+#    #+#             */
-/*   Updated: 2025/02/17 21:58:01 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 11:05:27 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_status(t_philo *philo, t_status status)
 	char	*status_messages[5];
 
 	init_messages(colors, status_messages);
-	if (should_stop	(philo->data))
+	if (should_stop(philo->data))
 		return ;
 	pthread_mutex_lock(&philo->data->write_lock);
 	timestamp = get_current_time() - philo->data->start_time;

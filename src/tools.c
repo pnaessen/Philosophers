@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:54:20 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/02/17 21:46:15 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 11:03:50 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	check_args(int argc, char **argv)
 	{
 		if (!argv[i][0])
 		{
-			printf("empty!!");
+			printf("empty!!\n");
 			return (0);
 		}
 		if (ft_isdigit(argv[i]) == 0)
 		{
-			printf("Only digit!!");
+			printf("Only digit!!\n");
 			return (0);
 		}
 		i++;

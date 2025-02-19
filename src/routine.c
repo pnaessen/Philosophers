@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/18 12:57:39 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/02/19 15:42:33 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,28 +62,41 @@ void	*philo_routine(void *arg)
 	return (NULL);
 }
 
-void	eat_routine(t_philo *philo)
+void	take_forks(t_philo *philo, bool use_mutex)
 {
 	t_data	*data;
 
 	data = philo->data;
-	 //pthread_mutex_lock(&data->mutex_eat);  si 77 philo ou moin + time to sleep - que time to eat alors je add mutex
+	if (use_mutex)
+		pthread_mutex_lock(&data->mutex_eat);
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks[philo->left_fork]);
 		print_status(philo, TAKING_FORK);
-	//	 pthread_mutex_unlock(&data->mutex_eat);
+		if (use_mutex)
+			pthread_mutex_unlock(&data->mutex_eat);
 		pthread_mutex_lock(&data->forks[philo->right_fork]);
-		print_status(philo, TAKING_FORK);
 	}
 	else
 	{
 		pthread_mutex_lock(&data->forks[philo->right_fork]);
 		print_status(philo, TAKING_FORK);
-	//	 pthread_mutex_unlock(&data->mutex_eat);
+		if (use_mutex)
+			pthread_mutex_unlock(&data->mutex_eat);
 		pthread_mutex_lock(&data->forks[philo->left_fork]);
-		print_status(philo, TAKING_FORK);
 	}
+	print_status(philo, TAKING_FORK);
+}
+
+void	eat_routine(t_philo *philo)
+{
+	t_data	*data;
+	bool	use_mutex;
+
+	data = philo->data;
+	use_mutex = (data->num_philos <= 77
+			&& data->time_to_sleep < data->time_to_eat);
+	take_forks(philo, use_mutex);
 	print_status(philo, EATING);
 	update_last_meal(philo);
 	smart_sleep(data->time_to_eat, data);

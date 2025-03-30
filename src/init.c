@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/02/18 10:49:22 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/03/30 19:37:21 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	init_data(t_data *data, int argc, char **argv)
 		data->max_meals = ft_atoi(argv[5]);
 	data->threads_ready = 0;
 	data->start_flag = 0;
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	data->forks = malloc(sizeof(t_fork) * data->num_philos);
 	if (!data->forks || data->num_philos <= 0 || (argc == 6
 			&& data->max_meals <= 0))
 	{
@@ -37,7 +37,11 @@ int	init_data(t_data *data, int argc, char **argv)
 	pthread_mutex_init(&data->end_lock, NULL);
 	i = -1;
 	while (++i < data->num_philos)
-		pthread_mutex_init(&data->forks[i], NULL);
+	{
+		data->forks[i].id = i;
+		data->forks[i].is_taken = false;
+		pthread_mutex_init(&data->forks[i].lock, NULL);
+	}
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/02/17 21:48:36 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/03/30 19:38:27 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef enum e_status
 	DIED
 }					t_status;
 
+typedef struct s_fork
+{
+	int				id;
+	bool			is_taken;
+	pthread_mutex_t	lock;
+}					t_fork;
+
 typedef struct s_data
 {
 	int				num_philos;
@@ -51,7 +58,7 @@ typedef struct s_data
 	bool			simulation_end;
 	pthread_mutex_t	meals_complete_lock;
 	pthread_mutex_t	mutex_eat;
-	pthread_mutex_t	*forks;
+	t_fork			*forks;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	end_lock;
@@ -111,5 +118,11 @@ int					init_simu(t_data *data, int argc, char **argv,
 int					create_threads(t_data *data, t_philo *philos);
 void				start_simu(t_data *data);
 void				join_threads(t_data *data, t_philo *philos);
+
+/////////////forks.c///////////
+bool				take_fork(t_philo *philo, int fork_id);
+void				release_fork(t_philo *philo, int fork_id);
+void				take_both_forks(t_philo *philo);
+void				release_both_forks(t_philo *philo);
 
 #endif

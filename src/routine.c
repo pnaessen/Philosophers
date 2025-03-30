@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/19 15:42:33 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/03/30 14:07:43 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,51 +62,27 @@ void	*philo_routine(void *arg)
 	return (NULL);
 }
 
-void	take_forks(t_philo *philo, bool use_mutex)
-{
-	t_data	*data;
-
-	data = philo->data;
-	if (use_mutex)
-		pthread_mutex_lock(&data->mutex_eat);
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(&data->forks[philo->left_fork]);
-		print_status(philo, TAKING_FORK);
-		if (use_mutex)
-			pthread_mutex_unlock(&data->mutex_eat);
-		pthread_mutex_lock(&data->forks[philo->right_fork]);
-	}
-	else
-	{
-		pthread_mutex_lock(&data->forks[philo->right_fork]);
-		print_status(philo, TAKING_FORK);
-		if (use_mutex)
-			pthread_mutex_unlock(&data->mutex_eat);
-		pthread_mutex_lock(&data->forks[philo->left_fork]);
-	}
-	print_status(philo, TAKING_FORK);
-}
-
 void	eat_routine(t_philo *philo)
 {
 	t_data	*data;
-	bool	use_mutex;
 
 	data = philo->data;
-	use_mutex = (data->num_philos <= 77
-			&& data->time_to_sleep < data->time_to_eat);
-	take_forks(philo, use_mutex);
+	take_both_forks(philo);
+	if (should_stop(data))
+	{
+		release_both_forks(philo);
+		return ;
+	}
 	print_status(philo, EATING);
 	update_last_meal(philo);
 	smart_sleep(data->time_to_eat, data);
-	pthread_mutex_unlock(&data->forks[philo->left_fork]);
-	pthread_mutex_unlock(&data->forks[philo->right_fork]);
+	release_both_forks(philo);
 }
 
 void	handle_nietzsche(t_philo *philo)
 {
-	print_status(philo, TAKING_FORK);
+	take_fork(philo, philo->left_fork);
 	while (!should_stop(philo->data))
 		usleep(100);
+	release_fork(philo, philo->left_fork);
 }

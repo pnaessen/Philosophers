@@ -1,0 +1,100 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers_bonus.h                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
+/*   Updated: 2025/04/01 13:57:52 by pnaessen         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PHILOSOPHERS_BONUS_H
+# define PHILOSOPHERS_BONUS_H
+
+# include <fcntl.h>
+# include <pthread.h>
+# include <semaphore.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/time.h>
+# include <unistd.h>
+
+# define RESET "\033[0m"
+# define GREEN "\033[32m"
+# define BLUE "\033[34m"
+# define YELLOW "\033[33m"
+# define CYAN "\033[36m"
+# define RED "\033[31m"
+
+# define SEM_FORKS "/sem_forks"
+# define SEM_WRITE "/sem_write"
+# define SEM_MEAL "/sem_meal"
+# define SEM_FINISHED "/sem_finished"
+# define SEM_STOP "/sem_stop"
+
+typedef enum e_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKING_FORK,
+	DIED
+}				t_status;
+
+typedef struct s_data
+{
+	int			num_philos;
+	int			time_to_die;
+	int			time_to_eat;
+	int			time_to_sleep;
+	int			max_meals;
+	int			meals_completed;
+	long		start_time;
+	bool		simulation_end;
+	pid_t		*pids;
+	sem_t		*forks;
+	sem_t		*write;
+	sem_t		*meal_lock;
+	sem_t		*finished;
+	sem_t		*stop;
+}				t_data;
+
+typedef struct s_philo
+{
+	int			id;
+	pid_t		pid;
+	pthread_t	monitor_thread;
+	long		last_meal;
+	int			meals_eaten;
+	t_data		*data;
+}				t_philo;
+
+/////////////////////////////src////////////////////////////////////
+
+////////////////////////////action_bonus.c/////////////////////////
+void			init_messages(char *colors[5], char *status_messages[5]);
+void			print_status(t_philo *philo, t_status status);
+void			update_last_meal(t_philo *philo);
+
+//////////////////////////init_bonus.c///////////////////////////
+int				init_data(t_data *data, int argc, char **argv);
+void			unlink_semaphores(void);
+int				init_semaphores(t_data *data);
+void			init_philo(t_philo *philo, int id, t_data *data);
+int				create_processes(t_data *data, t_philo *philos);
+
+////////////////////////monitor_bonus.c//////////////////////////
+void			*monitor_routine(void *arg);
+
+////////////////////////routine_bonus.c/////////////////////////
+void			take_forks(t_philo *philo);
+void			eat_routine(t_philo *philo);
+void			sleep_and_think(t_philo *philo);
+void			philo_routine(t_philo *philo);
+
+#endif

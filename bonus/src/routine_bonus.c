@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:35:24 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 13:56:16 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/01 15:44:34 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ void	eat_routine(t_philo *philo)
 	philo->meals_eaten++;
 	if (philo->data->max_meals > 0
 		&& philo->meals_eaten >= philo->data->max_meals)
-	{
 		sem_post(philo->data->finished);
-	}
 	sem_post(philo->data->forks);
 	sem_post(philo->data->forks);
 }

@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 13:57:52 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/01 15:42:36 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,17 @@ void			take_forks(t_philo *philo);
 void			eat_routine(t_philo *philo);
 void			sleep_and_think(t_philo *philo);
 void			philo_routine(t_philo *philo);
+
+///////////////////////utils_bonus/////////////////////////////
+int				check_args(int argc, char **argv);
+int				ft_isdigit(char *str);
+void			smart_sleep(long duration);
+long			get_current_time(void);
+int				ft_atoi(const char *str);
+
+/////////////////////tools_bonus.c////////////////////////////
+int				init_simulation(t_data *data, int argc, char **argv,
+					t_philo **philos);
+void			cleanup_resources(t_data *data, t_philo *philos);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:58:40 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 13:59:30 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/01 15:41:42 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,31 @@ void	smart_sleep(long duration)
 			break ;
 		usleep(500);
 	}
+}
+
+int	check_args(int argc, char **argv)
+{
+	int	i;
+
+	i = 1;
+	if (argc < 5 || argc > 6)
+	{
+		printf("Usage: ./philo_bonus philo_count t_die t_eat t_sleep [meals]\n");
+		return (0);
+	}
+	while (i < argc)
+	{
+		if (!argv[i][0])
+		{
+			printf("empty!!\n");
+			return (0);
+		}
+		if (ft_isdigit(argv[i]) == 0)
+		{
+			printf("Only digit!!\n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }

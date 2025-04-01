@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 15:42:36 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/01 16:52:10 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,14 @@ typedef struct s_philo
 	int			meals_eaten;
 	t_data		*data;
 }				t_philo;
+
+typedef struct s_wait
+{
+	t_data		*data;
+	bool		*simulation_end;
+	int			*meals_eaten;
+	pthread_mutex_t *lock;
+}				t_wait;
 
 /////////////////////////////src////////////////////////////////////
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:26:30 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/02 10:55:40 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 23:40:39 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ void	cleanup_resources(t_data *data, t_philo *philos)
 	sem_unlink(SEM_STOP);
 	if (data->pids)
 		free(data->pids);
-	if (!philos)
+	if (philos)
 		free(philos);
 }

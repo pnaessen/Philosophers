@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:25:16 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/02 10:42:39 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 23:48:57 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	init_data(t_data *data, int argc, char **argv)
 	if (argc == 6)
 		data->max_meals = ft_atoi(argv[5]);
 	data->meals_completed = 0;
-	data->simulation_end = false;
 	data->pids = malloc(sizeof(pid_t) * data->num_philos);
 	if (!data->pids || data->num_philos <= 0 || (argc == 6
 			&& data->max_meals <= 0))
@@ -42,6 +41,7 @@ void	unlink_semaphores(void)
 	sem_unlink(SEM_MEAL);
 	sem_unlink(SEM_FINISHED);
 	sem_unlink(SEM_STOP);
+	sem_unlink(SEM_EATING);
 }
 
 int	init_semaphores(t_data *data)
@@ -52,6 +52,7 @@ int	init_semaphores(t_data *data)
 	data->meal_lock = sem_open(SEM_MEAL, O_CREAT, 0644, 1);
 	data->finished = sem_open(SEM_FINISHED, O_CREAT, 0644, 0);
 	data->stop = sem_open(SEM_STOP, O_CREAT, 0644, 0);
+	data->eating = sem_open(SEM_EATING, O_CREAT, 0644, data->num_philos - 1);
 	if (data->forks == SEM_FAILED || data->write == SEM_FAILED
 		|| data->meal_lock == SEM_FAILED || data->finished == SEM_FAILED
 		|| data->stop == SEM_FAILED)

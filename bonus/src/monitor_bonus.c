@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:40:32 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/02 13:43:50 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 23:54:29 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	wait_for_processes(t_data *data)
 	wait_data.simulation_end = &death;
 	wait_data.lock = &mutex;
 	wait_data.meals_eaten = &meals_eaten;
-	// init_wait(&wait_data, data, &death, &meals_eaten);
 	pthread_create(&death_thread, NULL, death_routine, &wait_data);
 	if (data->max_meals > 0)
 		pthread_create(&meals_thread, NULL, meals_routine, &wait_data);
@@ -120,7 +119,7 @@ void	wait_for_processes(t_data *data)
 	pthread_mutex_destroy(&mutex);
 	pthread_detach(death_thread);
 	if (data->max_meals > 0)
-		pthread_detach(meals_thread);
+		pthread_detach(meals_thread); // need join car apres je free data est il use data
 }
 
 // void	init_wait(t_wait *wait_data, t_data *data, bool death, int meals_eaten)

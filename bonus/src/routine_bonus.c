@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:35:24 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/02 13:27:12 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 23:50:14 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ void	take_forks(t_philo *philo)
 
 void	eat_routine(t_philo *philo)
 {
+	sem_wait(philo->data->eating);
 	take_forks(philo);
+	sem_post(philo->data->eating);
 	print_status(philo, EATING);
 	update_last_meal(philo);
 	smart_sleep(philo->data->time_to_eat);
@@ -44,7 +46,7 @@ void	sleep_and_think(t_philo *philo)
 void	philo_routine(t_philo *philo)
 {
 	pthread_create(&philo->monitor_thread, NULL, monitor_routine, philo);
-	//pthread_detach(philo->monitor_thread); //bug
+	pthread_detach(philo->monitor_thread); //bug
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	while (1)

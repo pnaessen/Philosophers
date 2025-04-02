@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_bonus.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/02 13:22:04 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 23:49:14 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define SEM_MEAL "/sem_meal"
 # define SEM_FINISHED "/sem_finished"
 # define SEM_STOP "/sem_stop"
+# define SEM_EATING "/sem_eating"
 
 typedef enum e_status
 {
@@ -57,13 +58,13 @@ typedef struct s_data
 	int				max_meals;
 	int				meals_completed;
 	long			start_time;
-	bool			simulation_end;
 	pid_t			*pids;
 	sem_t			*forks;
 	sem_t			*write;
 	sem_t			*meal_lock;
 	sem_t			*finished;
 	sem_t			*stop;
+	sem_t			*eating;
 }					t_data;
 
 typedef struct s_philo

@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:25:16 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 14:00:56 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 10:42:39 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	create_processes(t_data *data, t_philo *philos)
 			return (1);
 		if (pid == 0)
 		{
-			philosopher_routine(&philos[i]);
+			philo_routine(&philos[i]);
 			exit(0);
 		}
 		else

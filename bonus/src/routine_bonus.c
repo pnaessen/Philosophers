@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:35:24 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 15:44:34 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 13:27:12 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	sleep_and_think(t_philo *philo)
 void	philo_routine(t_philo *philo)
 {
 	pthread_create(&philo->monitor_thread, NULL, monitor_routine, philo);
-	pthread_detach(philo->monitor_thread);
+	//pthread_detach(philo->monitor_thread); //bug
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	while (1)

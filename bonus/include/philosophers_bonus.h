@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 16:52:10 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 13:22:04 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 # include <fcntl.h>
 # include <pthread.h>
 # include <semaphore.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # define RESET "\033[0m"
@@ -44,77 +46,80 @@ typedef enum e_status
 	THINKING,
 	TAKING_FORK,
 	DIED
-}				t_status;
+}					t_status;
 
 typedef struct s_data
 {
-	int			num_philos;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			max_meals;
-	int			meals_completed;
-	long		start_time;
-	bool		simulation_end;
-	pid_t		*pids;
-	sem_t		*forks;
-	sem_t		*write;
-	sem_t		*meal_lock;
-	sem_t		*finished;
-	sem_t		*stop;
-}				t_data;
+	int				num_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				max_meals;
+	int				meals_completed;
+	long			start_time;
+	bool			simulation_end;
+	pid_t			*pids;
+	sem_t			*forks;
+	sem_t			*write;
+	sem_t			*meal_lock;
+	sem_t			*finished;
+	sem_t			*stop;
+}					t_data;
 
 typedef struct s_philo
 {
-	int			id;
-	pid_t		pid;
-	pthread_t	monitor_thread;
-	long		last_meal;
-	int			meals_eaten;
-	t_data		*data;
-}				t_philo;
+	int				id;
+	pid_t			pid;
+	pthread_t		monitor_thread;
+	long			last_meal;
+	int				meals_eaten;
+	t_data			*data;
+}					t_philo;
 
 typedef struct s_wait
 {
-	t_data		*data;
-	bool		*simulation_end;
-	int			*meals_eaten;
-	pthread_mutex_t *lock;
-}				t_wait;
+	t_data			*data;
+	bool			*simulation_end;
+	int				*meals_eaten;
+	pthread_mutex_t	*lock;
+}					t_wait;
 
 /////////////////////////////src////////////////////////////////////
 
 ////////////////////////////action_bonus.c/////////////////////////
-void			init_messages(char *colors[5], char *status_messages[5]);
-void			print_status(t_philo *philo, t_status status);
-void			update_last_meal(t_philo *philo);
+void				init_messages(char *colors[5], char *status_messages[5]);
+void				print_status(t_philo *philo, t_status status);
+void				update_last_meal(t_philo *philo);
 
 //////////////////////////init_bonus.c///////////////////////////
-int				init_data(t_data *data, int argc, char **argv);
-void			unlink_semaphores(void);
-int				init_semaphores(t_data *data);
-void			init_philo(t_philo *philo, int id, t_data *data);
-int				create_processes(t_data *data, t_philo *philos);
+int					init_data(t_data *data, int argc, char **argv);
+void				unlink_semaphores(void);
+int					init_semaphores(t_data *data);
+void				init_philo(t_philo *philo, int id, t_data *data);
+int					create_processes(t_data *data, t_philo *philos);
 
 ////////////////////////monitor_bonus.c//////////////////////////
-void			*monitor_routine(void *arg);
+void				*monitor_routine(void *arg);
+void				wait_for_processes(t_data *data);
+void				*meals_routine(void *arg);
+void				*death_routine(void *arg);
 
 ////////////////////////routine_bonus.c/////////////////////////
-void			take_forks(t_philo *philo);
-void			eat_routine(t_philo *philo);
-void			sleep_and_think(t_philo *philo);
-void			philo_routine(t_philo *philo);
+void				take_forks(t_philo *philo);
+void				eat_routine(t_philo *philo);
+void				sleep_and_think(t_philo *philo);
+void				philo_routine(t_philo *philo);
 
 ///////////////////////utils_bonus/////////////////////////////
-int				check_args(int argc, char **argv);
-int				ft_isdigit(char *str);
-void			smart_sleep(long duration);
-long			get_current_time(void);
-int				ft_atoi(const char *str);
+int					check_args(int argc, char **argv);
+int					ft_isdigit(char *str);
+void				smart_sleep(long duration);
+long				get_current_time(void);
+int					ft_atoi(const char *str);
 
 /////////////////////tools_bonus.c////////////////////////////
-int				init_simulation(t_data *data, int argc, char **argv,
-					t_philo **philos);
-void			cleanup_resources(t_data *data, t_philo *philos);
+int					init_simulation(t_data *data, int argc, char **argv,
+						t_philo **philos);
+void				cleanup_resources(t_data *data, t_philo *philos);
 
 #endif

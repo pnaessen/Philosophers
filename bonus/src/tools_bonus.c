@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:26:30 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 15:41:40 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 10:55:40 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	init_simulation(t_data *data, int argc, char **argv, t_philo **philos)
 {
 	if (init_data(data, argc, argv) != 0)
 		return (1);
-	if (init_semaphore(data) != 0)
+	if (init_semaphores(data) != 0)
 	{
 		free(data->pids);
 		return (1);

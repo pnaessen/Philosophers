@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:40:32 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/03 15:11:26 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 19:05:31 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,49 +83,21 @@ void	*meals_routine(void *arg)
 
 void	wait_for_processes(t_data *data)
 {
-	pthread_t		death_thread;
-	pthread_t		meals_thread;
+	pthread_t		threads[2];
 	t_wait			wait_data;
+	pthread_mutex_t	mutex;
 	int				death;
 	int				meals_eaten;
-	pthread_mutex_t	mutex;
-	int				i;
-	int				status;
 
-	i = 0;
-	death = 0;
-	meals_eaten = 0;
 	pthread_mutex_init(&mutex, NULL);
-	wait_data.data = data;
-	wait_data.simulation_end = &death;
-	wait_data.lock = &mutex;
-	wait_data.meals_eaten = &meals_eaten;
-	pthread_create(&death_thread, NULL, death_routine, &wait_data);
-	if (data->max_meals > 0)
-		pthread_create(&meals_thread, NULL, meals_routine, &wait_data);
-	while (1)
-	{
-		pthread_mutex_lock(wait_data.lock);
-		if (death || (data->max_meals > 0 && meals_eaten >= data->num_philos))
-		{
-			pthread_mutex_unlock(wait_data.lock);
-			break ;
-		}
-		pthread_mutex_unlock(wait_data.lock);
-	}
-	while (i < data->num_philos)
-	{
-		kill(data->pids[i], SIGKILL);
-		i++;
-	}
-	i = 0;
-	while (i < data->num_philos)
-	{
-		waitpid(data->pids[i], &status, 0);
-		i++;
-	}
+	wait_data = init_wait_struct(data, &mutex, &death, &meals_eaten);
+	create_monitor_threads(&wait_data, &threads[0], &threads[1]);
+	while (!check_end_condition(&wait_data))
+		usleep(1000);
+	kill_philos(data, 0);
+	wait_philos(data, 0);
 	pthread_mutex_destroy(&mutex);
-	pthread_join(death_thread, NULL);
+	pthread_join(threads[0], NULL);
 	if (data->max_meals > 0)
-		pthread_join(meals_thread, NULL);
+		pthread_join(threads[1], NULL);
 }

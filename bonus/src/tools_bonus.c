@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:26:30 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/03 13:49:28 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 19:05:24 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,27 @@ void	cleanup_resources(t_data *data, t_philo *philos)
 		free(data->pids);
 	if (philos)
 		free(philos);
+}
+
+int	check_end_condition(t_wait *wait_data)
+{
+	int	end;
+	int	max_meals;
+
+	end = 0;
+	max_meals = wait_data->data->max_meals;
+	pthread_mutex_lock(wait_data->lock);
+	if (*(wait_data->simulation_end) || (max_meals > 0
+			&& *(wait_data->meals_eaten) >= wait_data->data->num_philos))
+		end = 1;
+	pthread_mutex_unlock(wait_data->lock);
+	return (end);
+}
+
+void	create_monitor_threads(t_wait *wait_data, pthread_t *death_thread,
+		pthread_t *meals_thread)
+{
+	pthread_create(death_thread, NULL, death_routine, wait_data);
+	if (wait_data->data->max_meals > 0)
+		pthread_create(meals_thread, NULL, meals_routine, wait_data);
 }

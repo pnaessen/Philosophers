@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_bonus.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/03 13:39:17 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 19:11:31 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,14 @@ void				wait_for_processes(t_data *data);
 void				*meals_routine(void *arg);
 void				*death_routine(void *arg);
 
+////////////////////////monitor_tools_bonus.c//////////////////
+int					check_death_condition(t_wait *wait_data);
+void				kill_philos(t_data *data, int i);
+void				wait_philos(t_data *data, int i);
+void				init_wait_values(int *death, int *meals_eaten);
+t_wait				init_wait_struct(t_data *data, pthread_mutex_t *mutex,
+						int *death, int *meals_eaten);
+
 ////////////////////////routine_bonus.c/////////////////////////
 void				take_forks(t_philo *philo);
 void				eat_routine(t_philo *philo);
@@ -123,5 +131,8 @@ int					ft_atoi(const char *str);
 int					init_simulation(t_data *data, int argc, char **argv,
 						t_philo **philos);
 void				cleanup_resources(t_data *data, t_philo *philos);
+int					check_end_condition(t_wait *wait_data);
+void				create_monitor_threads(t_wait *wait_data,
+						pthread_t *death_thread, pthread_t *meals_thread);	
 
 #endif

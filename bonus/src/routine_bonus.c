@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:35:24 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/03 13:39:12 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 19:05:28 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,15 @@ void	eat_routine(t_philo *philo)
 	update_last_meal(philo);
 	smart_sleep(philo->data->time_to_eat);
 	philo->meals_eaten++;
+	sem_post(philo->data->forks);
+	sem_post(philo->data->forks);
 	if (philo->data->max_meals > 0
 		&& philo->meals_eaten >= philo->data->max_meals)
+	{
 		sem_post(philo->data->finished);
-	sem_post(philo->data->forks);
-	sem_post(philo->data->forks);
+		while (1)
+			usleep(3000);
+	}
 }
 
 void	sleep_and_think(t_philo *philo)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 14:05:20 by pn                #+#    #+#             */
-/*   Updated: 2025/04/03 16:33:56 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 18:25:31 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	release_fork(t_philo *philo, int fork_id)
 
 void	select_forks(t_philo *philo, int *first, int *second)
 {
-	if (philo->id % 2 == 0)
+	if (philo->left_fork < philo->right_fork)
 	{
 		*first = philo->right_fork;
 		*second = philo->left_fork;
@@ -57,8 +57,7 @@ void	take_both_forks(t_philo *philo)
 	int		second_fork;
 
 	data = philo->data;
-	use_mutex = (data->num_philos <= 109
-			&& data->time_to_sleep < data->time_to_eat);
+	use_mutex = (data->num_philos <= 109);
 	select_forks(philo, &first_fork, &second_fork);
 	if (use_mutex)
 		pthread_mutex_lock(&data->mutex_eat);

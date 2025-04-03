@@ -1,6 +1,6 @@
 NAME := philo_bonus
 
-SRC:= $(addprefix $(SRC_DIR), philo_bonus.c init_bonus.c routine_bonus.c monitor_bonus.c actions_bonus.c  utils_bonus.c tools_bonus.c)
+SRC:= $(addprefix $(SRC_DIR), philo_bonus.c init_bonus.c routine_bonus.c monitor_bonus.c actions_bonus.c  utils_bonus.c tools_bonus.c monitor_tools_bonus.c)
 OBJ_DIR:= .obj/
 OBJ:= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 DEPS:= $(OBJ:%.o=%.d)

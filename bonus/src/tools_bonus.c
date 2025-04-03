@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:26:30 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/03 13:36:21 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 13:49:28 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	init_simulation(t_data *data, int argc, char **argv, t_philo **philos)
 	*philos = malloc(sizeof(t_philo) * data->num_philos);
 	if (!*philos)
 	{
-		free(data->pids);
+		cleanup_resources(data, NULL);
 		return (1);
 	}
 	return (0);

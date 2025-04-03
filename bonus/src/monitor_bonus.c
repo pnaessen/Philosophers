@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:40:32 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/03 13:39:06 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 15:11:26 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,13 @@ void	wait_for_processes(t_data *data)
 		pthread_create(&meals_thread, NULL, meals_routine, &wait_data);
 	while (1)
 	{
-		pthread_mutex_lock(&mutex);
+		pthread_mutex_lock(wait_data.lock);
 		if (death || (data->max_meals > 0 && meals_eaten >= data->num_philos))
 		{
-			pthread_mutex_unlock(&mutex);
+			pthread_mutex_unlock(wait_data.lock);
 			break ;
 		}
-		pthread_mutex_unlock(&mutex);
-		// usleep(1000);
+		pthread_mutex_unlock(wait_data.lock);
 	}
 	while (i < data->num_philos)
 	{

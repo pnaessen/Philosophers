@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:25:16 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/02 23:48:57 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 13:34:33 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	init_semaphores(t_data *data)
 	data->eating = sem_open(SEM_EATING, O_CREAT, 0644, data->num_philos - 1);
 	if (data->forks == SEM_FAILED || data->write == SEM_FAILED
 		|| data->meal_lock == SEM_FAILED || data->finished == SEM_FAILED
-		|| data->stop == SEM_FAILED)
+		|| data->stop == SEM_FAILED || data->eating == SEM_FAILED)
 		return (1);
 	return (0);
 }

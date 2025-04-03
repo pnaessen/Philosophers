@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_bonus.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/02 23:49:14 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 13:39:17 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ typedef struct s_philo
 	long			last_meal;
 	int				meals_eaten;
 	t_data			*data;
+	struct s_wait	*wait;
 }					t_philo;
 
 typedef struct s_wait
 {
 	t_data			*data;
-	bool			*simulation_end;
+	int				*simulation_end;
 	int				*meals_eaten;
 	pthread_mutex_t	*lock;
 }					t_wait;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:40:32 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/02 23:54:29 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 13:39:06 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ void	*death_routine(void *arg)
 	wait_data = (t_wait *)arg;
 	sem_wait(wait_data->data->stop);
 	pthread_mutex_lock(wait_data->lock);
-	*wait_data->simulation_end = true;
+	*wait_data->simulation_end = 1;
 	pthread_mutex_unlock(wait_data->lock);
+	sem_post(wait_data->data->finished);
 	return (NULL);
 }
 
@@ -63,12 +64,20 @@ void	*meals_routine(void *arg)
 	i = 0;
 	while (i < wait_data->data->num_philos)
 	{
+		pthread_mutex_lock(wait_data->lock);
+		if ((*wait_data->simulation_end) == 1)
+		{
+			pthread_mutex_unlock(wait_data->lock);
+			return (NULL);
+		}
+		pthread_mutex_unlock(wait_data->lock);
 		sem_wait(wait_data->data->finished);
 		pthread_mutex_lock(wait_data->lock);
 		(*wait_data->meals_eaten)++;
 		pthread_mutex_unlock(wait_data->lock);
 		i++;
 	}
+	sem_post(wait_data->data->stop);
 	return (NULL);
 }
 
@@ -77,14 +86,14 @@ void	wait_for_processes(t_data *data)
 	pthread_t		death_thread;
 	pthread_t		meals_thread;
 	t_wait			wait_data;
-	bool			death;
+	int				death;
 	int				meals_eaten;
 	pthread_mutex_t	mutex;
 	int				i;
 	int				status;
 
 	i = 0;
-	death = false;
+	death = 0;
 	meals_eaten = 0;
 	pthread_mutex_init(&mutex, NULL);
 	wait_data.data = data;
@@ -103,7 +112,7 @@ void	wait_for_processes(t_data *data)
 			break ;
 		}
 		pthread_mutex_unlock(&mutex);
-		usleep(1000);
+		// usleep(1000);
 	}
 	while (i < data->num_philos)
 	{
@@ -117,15 +126,7 @@ void	wait_for_processes(t_data *data)
 		i++;
 	}
 	pthread_mutex_destroy(&mutex);
-	pthread_detach(death_thread);
+	pthread_join(death_thread, NULL);
 	if (data->max_meals > 0)
-		pthread_detach(meals_thread); // need join car apres je free data est il use data
+		pthread_join(meals_thread, NULL);
 }
-
-// void	init_wait(t_wait *wait_data, t_data *data, bool death, int meals_eaten)
-// {
-// 	wait_data->data = data;
-// 	wait_data->simulation_end = death;
-// 	wait_data->lock = &mutex;
-// 	wait_data->meals_eaten = meals_eaten;
-// }

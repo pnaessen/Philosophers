@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:58:40 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/01 15:41:42 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/03 13:40:11 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	check_args(int argc, char **argv)
 	i = 1;
 	if (argc < 5 || argc > 6)
 	{
-		printf("Usage: ./philo_bonus philo_count t_die t_eat t_sleep [meals]\n");
+		printf("Usage: ./philo_bonus philo_count t_die \
+				t_eat t_sleep [meals]\n");
 		return (0);
 	}
 	while (i < argc)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:13 by pn                #+#    #+#             */
-/*   Updated: 2025/04/03 18:24:39 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 11:53:34 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ void	eat_routine(t_philo *philo)
 	update_last_meal(philo);
 	smart_sleep(data->time_to_eat, data);
 	release_both_forks(philo);
-	if (philo->data->num_philos % 2 != 0)
-		usleep(500);
 }
 
 void	handle_nietzsche(t_philo *philo)

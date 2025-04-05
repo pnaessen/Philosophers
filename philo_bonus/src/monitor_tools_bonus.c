@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_tools_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:01:01 by pn                #+#    #+#             */
-/*   Updated: 2025/04/05 11:42:52 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/05 15:24:54 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers_bonus.h"
-
-int	check_death_condition(t_wait *wait_data)
-{
-	int	end;
-
-	end = 0;
-	sem_wait(wait_data->data->death_main);
-	if (*(wait_data->simulation_end))
-		end = 1;
-	return (end);
-}
 
 void	kill_philos(t_data *data, int j)
 {

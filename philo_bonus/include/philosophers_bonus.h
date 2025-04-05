@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_bonus.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/05 11:57:01 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/05 15:25:21 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void				*meals_routine(void *arg);
 void				*death_routine(void *arg);
 
 ////////////////////////monitor_tools_bonus.c//////////////////
-int					check_death_condition(t_wait *wait_data);
 void				kill_philos(t_data *data, int i);
 void				wait_philos(t_data *data, int i);
 void				init_wait_values(int *death, int *meals_eaten);

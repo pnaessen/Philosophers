@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:25:16 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/04 17:09:33 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/05 11:42:39 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	unlink_semaphores(void)
 	sem_unlink(SEM_MEAL);
 	sem_unlink(SEM_FINISHED);
 	sem_unlink(SEM_STOP);
+	sem_unlink(SEM_DEATH);
+	//sem_unlink(SEM_MAIN);
 }
 
 int	init_semaphores(t_data *data)
@@ -51,9 +53,12 @@ int	init_semaphores(t_data *data)
 	data->meal_lock = sem_open(SEM_MEAL, O_CREAT, 0644, 1);
 	data->finished = sem_open(SEM_FINISHED, O_CREAT, 0644, 0);
 	data->stop = sem_open(SEM_STOP, O_CREAT, 0644, 0);
+	data->death_main = sem_open(SEM_DEATH, O_CREAT, 0644, 0);
+	//data->meals_main = sem_open(SEM_MAIN, O_CREAT, 0644, 0);
 	if (data->forks == SEM_FAILED || data->write == SEM_FAILED
 		|| data->meal_lock == SEM_FAILED || data->finished == SEM_FAILED
-		|| data->stop == SEM_FAILED)
+		|| data->stop == SEM_FAILED || data->death_main == SEM_FAILED)
+//		|| data->meals_main == SEM_FAILED)
 		return (1);
 	return (0);
 }

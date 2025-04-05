@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:26:30 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/04 17:20:55 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/05 11:42:57 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,19 @@ void	cleanup_resources(t_data *data, t_philo *philos)
 	sem_close(data->meal_lock);
 	sem_close(data->finished);
 	sem_close(data->stop);
+	sem_close(data->death_main);
+	//sem_close(data->meals_main);
 	sem_unlink(SEM_FORKS);
 	sem_unlink(SEM_WRITE);
 	sem_unlink(SEM_MEAL);
 	sem_unlink(SEM_FINISHED);
 	sem_unlink(SEM_STOP);
+	//sem_unlink(SEM_MAIN);
+	sem_unlink(SEM_DEATH);
 	if (data->pids)
 		free(data->pids);
 	if (philos)
 		free(philos);
-}
-
-int	check_end_condition(t_wait *wait_data)
-{
-	int	end;
-	int	max_meals;
-
-	end = 0;
-	pthread_mutex_lock(wait_data->lock);
-	max_meals = wait_data->data->max_meals;
-	if (*(wait_data->simulation_end) || (max_meals > 0
-			&& *(wait_data->meals_eaten) >= wait_data->data->num_philos))
-		end = 1;
-	pthread_mutex_unlock(wait_data->lock);
-	return (end);
 }
 
 void	create_monitor_threads(t_wait *wait_data, pthread_t *death_thread,

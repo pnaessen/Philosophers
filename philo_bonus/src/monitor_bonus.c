@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:40:32 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/04 16:19:04 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/05 11:42:46 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,8 @@ void	*death_routine(void *arg)
 
 	wait_data = (t_wait *)arg;
 	sem_wait(wait_data->data->stop);
-	pthread_mutex_lock(wait_data->lock);
 	*wait_data->simulation_end = 1;
-	pthread_mutex_unlock(wait_data->lock);
-	sem_post(wait_data->data->finished);
+	sem_post(wait_data->data->death_main);
 	return (NULL);
 }
 
@@ -64,40 +62,30 @@ void	*meals_routine(void *arg)
 	i = 0;
 	while (i < wait_data->data->num_philos)
 	{
-		pthread_mutex_lock(wait_data->lock);
-		if ((*wait_data->simulation_end) == 1)
-		{
-			pthread_mutex_unlock(wait_data->lock);
-			return (NULL);
-		}
-		pthread_mutex_unlock(wait_data->lock);
-		sem_wait(wait_data->data->finished);
-		pthread_mutex_lock(wait_data->lock);
+		if (*wait_data->simulation_end == 1)
+			break ;
+		sem_wait(wait_data->data->finished); // wait ici ducoup check pas
 		(*wait_data->meals_eaten)++;
-		pthread_mutex_unlock(wait_data->lock);
 		i++;
 	}
 	sem_post(wait_data->data->stop);
+	sem_post(wait_data->data->death_main);
 	return (NULL);
 }
 
 void	wait_for_processes(t_data *data)
 {
-	pthread_t		threads[2];
-	t_wait			wait_data;
-	pthread_mutex_t	mutex;
-	int				death;
-	int				meals_eaten;
+	pthread_t	threads[2];
+	t_wait		wait_data;
+	int			death;
+	int			meals_eaten;
 
-	pthread_mutex_init(&mutex, NULL);
-	wait_data = init_wait_struct(data, &mutex, &death, &meals_eaten);
+	wait_data = init_wait_struct(data, &death, &meals_eaten);
 	create_monitor_threads(&wait_data, &threads[0], &threads[1]);
-	while (!check_end_condition(&wait_data))
-		usleep(1000);
+	sem_wait(data->death_main);
 	pthread_join(threads[0], NULL);
 	if (data->max_meals > 0)
 		pthread_join(threads[1], NULL);
 	kill_philos(data, 0);
 	wait_philos(data, 0);
-	pthread_mutex_destroy(&mutex);
 }

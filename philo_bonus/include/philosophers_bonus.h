@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/04 17:03:52 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/05 11:43:04 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define SEM_MEAL "/sem_meal"
 # define SEM_FINISHED "/sem_finished"
 # define SEM_STOP "/sem_stop"
+# define SEM_DEATH "/sem_death"
+# define SEM_MAIN "/sem_main"
 
 typedef enum e_status
 {
@@ -63,6 +65,8 @@ typedef struct s_data
 	sem_t			*meal_lock;
 	sem_t			*finished;
 	sem_t			*stop;
+	sem_t			*death_main;
+	// sem_t			*meals_main;
 }					t_data;
 
 typedef struct s_philo
@@ -81,7 +85,6 @@ typedef struct s_wait
 	t_data			*data;
 	int				*simulation_end;
 	int				*meals_eaten;
-	pthread_mutex_t	*lock;
 }					t_wait;
 
 /////////////////////////////src////////////////////////////////////
@@ -109,8 +112,8 @@ int					check_death_condition(t_wait *wait_data);
 void				kill_philos(t_data *data, int i);
 void				wait_philos(t_data *data, int i);
 void				init_wait_values(int *death, int *meals_eaten);
-t_wait				init_wait_struct(t_data *data, pthread_mutex_t *mutex,
-						int *death, int *meals_eaten);
+t_wait				init_wait_struct(t_data *data, int *death,
+						int *meals_eaten);
 
 ////////////////////////routine_bonus.c/////////////////////////
 void				take_forks(t_philo *philo);
@@ -131,6 +134,6 @@ int					init_simulation(t_data *data, int argc, char **argv,
 void				cleanup_resources(t_data *data, t_philo *philos);
 int					check_end_condition(t_wait *wait_data);
 void				create_monitor_threads(t_wait *wait_data,
-						pthread_t *death_thread, pthread_t *meals_thread);	
+						pthread_t *death_thread, pthread_t *meals_thread);
 
 #endif

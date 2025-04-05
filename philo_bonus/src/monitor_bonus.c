@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:40:32 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/05 11:42:46 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/05 11:59:00 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ void	*death_routine(void *arg)
 
 	wait_data = (t_wait *)arg;
 	sem_wait(wait_data->data->stop);
+	sem_wait(wait_data->data->meals_main);
 	*wait_data->simulation_end = 1;
+	sem_post(wait_data->data->meals_main);
 	sem_post(wait_data->data->death_main);
+	sem_post(wait_data->data->finished);
 	return (NULL);
 }
 
@@ -62,9 +65,14 @@ void	*meals_routine(void *arg)
 	i = 0;
 	while (i < wait_data->data->num_philos)
 	{
+		sem_wait(wait_data->data->meals_main);
 		if (*wait_data->simulation_end == 1)
+		{
+			sem_post(wait_data->data->meals_main);
 			break ;
-		sem_wait(wait_data->data->finished); // wait ici ducoup check pas
+		}
+		sem_post(wait_data->data->meals_main);
+		sem_wait(wait_data->data->finished);
 		(*wait_data->meals_eaten)++;
 		i++;
 	}

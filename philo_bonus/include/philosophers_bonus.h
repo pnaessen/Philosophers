@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/05 11:43:04 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/05 11:57:01 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_data
 	sem_t			*finished;
 	sem_t			*stop;
 	sem_t			*death_main;
-	// sem_t			*meals_main;
+	sem_t			*meals_main;
 }					t_data;
 
 typedef struct s_philo

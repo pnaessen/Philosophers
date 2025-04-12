@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/04/03 18:29:01 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/12 12:45:27 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,18 @@ int	init_data_mutex(t_data *data)
 {
 	int	i;
 
-	pthread_mutex_init(&data->start_lock, NULL);
-	pthread_mutex_init(&data->mutex_eat, NULL);
-	pthread_mutex_init(&data->meal_lock, NULL);
-	pthread_mutex_init(&data->write_lock, NULL);
-	pthread_mutex_init(&data->meals_complete_lock, NULL);
-	pthread_mutex_init(&data->end_lock, NULL);
+	if (pthread_mutex_init(&data->start_lock, NULL) != 0)
+		return (cleanup_resources(data, NULL, true), 1);
+	if (pthread_mutex_init(&data->mutex_eat, NULL) != 0)
+		return (cleanup_resources(data, NULL, true), 1);
+	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
+		return (cleanup_resources(data, NULL, true), 1);
+	if (pthread_mutex_init(&data->write_lock, NULL) != 0)
+		return (cleanup_resources(data, NULL, true), 1);
+	if (pthread_mutex_init(&data->meals_complete_lock, NULL) != 0)
+		return (cleanup_resources(data, NULL, true), 1);
+	if (pthread_mutex_init(&data->end_lock, NULL) != 0)
+		return (cleanup_resources(data, NULL, true), 1);
 	i = -1;
 	while (++i < data->num_philos)
 	{
@@ -59,7 +65,10 @@ int	init_philos(t_data *data, t_philo **philos)
 
 	*philos = malloc(sizeof(t_philo) * data->num_philos);
 	if (!*philos)
+	{
+		cleanup_resources(data, *philos, true);
 		return (1);
+	}
 	i = -1;
 	while (++i < data->num_philos)
 	{

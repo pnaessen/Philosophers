@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:54:20 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/02/18 11:03:50 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 08:35:59 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int	init_simu(t_data *data, int argc, char **argv, t_philo **philos)
 	data->time_to_sleep = ft_atoi(argv[4]);
 	data->meals_completed = 0;
 	data->simulation_end = false;
+	if (data->num_philos < 0 || data->time_to_die < 0 || data->time_to_eat < 0
+		|| data->time_to_sleep < 0)
+		return (1);
 	if (init_data(data, argc, argv) != 0 || init_philos(data, philos) != 0)
 		return (1);
 	data->start_time = get_current_time();
@@ -86,7 +89,7 @@ int	create_threads(t_data *data, t_philo *philos)
 	error_index = create_philo_threads(data, philos);
 	if (error_index != -1)
 	{
-		handle_creation_error(data, philos, error_index);
+		handle_creation_error(data, philos, error_index - 1);
 		return (1);
 	}
 	if (pthread_create(&data->monitor_thread, NULL, monitor, philos) != 0)

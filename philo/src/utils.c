@@ -6,15 +6,16 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/04/12 12:46:19 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 08:14:23 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+#include <limits.h>
 
 int	ft_atoi(const char *str)
 {
-	int	res;
+	long	res;
 	int	sign;
 
 	res = 0;
@@ -29,6 +30,8 @@ int	ft_atoi(const char *str)
 	}
 	while (*str >= '0' && *str <= '9')
 	{
+		if(res > INT_MAX)
+			return(-1);
 		res = res * 10 + (*str - '0');
 		str++;
 	}

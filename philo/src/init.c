@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:34:29 by pn                #+#    #+#             */
-/*   Updated: 2025/04/21 08:38:50 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 19:33:04 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,24 @@ int	init_data_mutex(t_data *data)
 	int	i;
 
 	if (pthread_mutex_init(&data->start_lock, NULL) != 0)
-		return (cleanup_resources(data, NULL, true), 1);
+		return (cleanup_resources(data, NULL, true, 0), 1);
 	if (pthread_mutex_init(&data->mutex_eat, NULL) != 0)
-		return (cleanup_resources(data, NULL, true), 1);
+		return (cleanup_resources(data, NULL, true, 1), 1);
 	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
-		return (cleanup_resources(data, NULL, true), 1);
+		return (cleanup_resources(data, NULL, true, 2), 1);
 	if (pthread_mutex_init(&data->write_lock, NULL) != 0)
-		return (cleanup_resources(data, NULL, true), 1);
+		return (cleanup_resources(data, NULL, true, 3), 1);
 	if (pthread_mutex_init(&data->meals_complete_lock, NULL) != 0)
-		return (cleanup_resources(data, NULL, true), 1);
+		return (cleanup_resources(data, NULL, true, 4), 1);
 	if (pthread_mutex_init(&data->end_lock, NULL) != 0)
-		return (cleanup_resources(data, NULL, true), 1);
+		return (cleanup_resources(data, NULL, true, 5), 1);
 	i = -1;
 	while (++i < data->num_philos)
 	{
 		data->forks[i].id = i;
 		data->forks[i].is_taken = false;
-		pthread_mutex_init(&data->forks[i].lock, NULL);
+		if (pthread_mutex_init(&data->forks[i].lock, NULL) != 0)
+			return (cleanup_resources(data, NULL, true, 6 + i), 1);
 	}
 	return (0);
 }
@@ -66,7 +67,7 @@ int	init_philos(t_data *data, t_philo **philos)
 	*philos = malloc(sizeof(t_philo) * data->num_philos);
 	if (!*philos)
 	{
-		cleanup_resources(data, *philos, true);
+		cleanup_resources(data, *philos, true, 6);
 		return (1);
 	}
 	i = -1;

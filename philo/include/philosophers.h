@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:27:20 by pn                #+#    #+#             */
-/*   Updated: 2025/03/30 19:38:27 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 19:21:39 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ int					ft_atoi(const char *str);
 bool				should_stop(t_data *data);
 void				update_last_meal(t_philo *philo);
 bool				check_all_meals_complete(t_data *data);
-void				cleanup_resources(t_data *data, t_philo *philos, bool exit);
-
+void				cleanup_resources(t_data *data, t_philo *philos, bool exit,
+						int mutex_count);
 /////////////tools.c///////////
 int					check_args(int argc, char **argv);
 int					init_simu(t_data *data, int argc, char **argv,

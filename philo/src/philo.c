@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 21:28:13 by pn                #+#    #+#             */
-/*   Updated: 2025/02/15 15:24:00 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/21 19:22:25 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ int	main(int argc, char **argv)
 		return (1);
 	if (create_threads(&data, philos) != 0)
 	{
-		cleanup_resources(&data, philos, true);
+		cleanup_resources(&data, philos, true, 6);
 		return (1);
 	}
 	start_simu(&data);
 	join_threads(&data, philos);
-	cleanup_resources(&data, philos, true);
+	cleanup_resources(&data, philos, true, 6);
 	return (0);
 }

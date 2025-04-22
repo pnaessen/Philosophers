@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:18:43 by pn                #+#    #+#             */
-/*   Updated: 2025/04/21 19:32:30 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/22 09:32:13 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,6 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return (res * sign);
-}
-
-void	update_last_meal(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->meal_lock);
-	philo->last_meal = get_current_time();
-	pthread_mutex_unlock(&philo->data->meal_lock);
 }
 
 void	free_allocated_resources(t_data *data, t_philo *philos, int mutex_count)

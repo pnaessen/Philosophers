@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:25:16 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/05 11:57:54 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/22 12:03:34 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ int	create_processes(t_data *data, t_philo *philos)
 	while (i < data->num_philos)
 	{
 		init_philo(&philos[i], i, data);
-		pid = fork();
-		if (pid < 0)
+		if (i != 5)
+			pid = fork();
+		if (pid < 0 || i == 5)
 			return (1);
 		if (pid == 0)
 		{

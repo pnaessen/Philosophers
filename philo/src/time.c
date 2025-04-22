@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:04:17 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/04 12:04:30 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/22 11:06:44 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,12 @@ void	sleep_and_think(t_philo *philo)
 	print_status(philo, SLEEPING);
 	smart_sleep(philo->data->time_to_sleep, philo->data);
 	print_status(philo, THINKING);
-	usleep(300);
+	usleep(500);
+}
+
+void	update_last_meal(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->meal_lock);
+	philo->last_meal = get_current_time();
+	pthread_mutex_unlock(&philo->data->meal_lock);
 }

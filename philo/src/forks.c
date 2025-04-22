@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 14:05:20 by pn                #+#    #+#             */
-/*   Updated: 2025/04/04 17:13:58 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/22 11:13:47 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	take_both_forks(t_philo *philo)
 	int		second_fork;
 
 	data = philo->data;
-	use_mutex = (data->num_philos <= 171
+	use_mutex = (data->num_philos <= 87
 			&& data->time_to_sleep < data->time_to_eat && data->num_philos
 			% 2 != 0);
 	select_forks(philo, &first_fork, &second_fork);

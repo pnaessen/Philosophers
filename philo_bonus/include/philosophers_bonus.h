@@ -6,7 +6,7 @@
 /*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/05 15:25:21 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/22 18:30:04 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define SEM_STOP "/sem_stop"
 # define SEM_DEATH "/sem_death"
 # define SEM_MAIN "/sem_main"
+
 
 typedef enum e_status
 {

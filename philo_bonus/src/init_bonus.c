@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:25:16 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/22 12:03:34 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/22 17:50:07 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,17 @@ void	init_philo(t_philo *philo, int id, t_data *data)
 	philo->data = data;
 }
 
+void	kill_philos_fail(t_data *data, int i)
+{
+	int	j;
+
+	j = 0;
+	while (j < i)
+	{
+		kill(data->pids[j], SIGKILL);
+		j++;
+	}
+}
 int	create_processes(t_data *data, t_philo *philos)
 {
 	int		i;
@@ -81,10 +92,12 @@ int	create_processes(t_data *data, t_philo *philos)
 	while (i < data->num_philos)
 	{
 		init_philo(&philos[i], i, data);
-		if (i != 5)
 			pid = fork();
-		if (pid < 0 || i == 5)
+		if (pid < 0 )
+		{
+			kill_philos_fail(data, i);
 			return (1);
+		}
 		if (pid == 0)
 		{
 			philo_routine(&philos[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:25:16 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/23 14:30:01 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/23 17:53:03 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,12 @@ int	create_processes(t_data *data, t_philo *philos)
 	int		i;
 	pid_t	pid;
 
-	i = 0;
-	while (i < data->num_philos)
+	i = -1;
+	while (++i < data->num_philos)
 	{
 		init_philo(&philos[i], i, data);
-		if (i != 5)
-			pid = fork();
-		if (i == 5 || pid < 0)
+		pid = fork();
+		if (pid < 0)
 		{
 			kill_philos_fail(data, i);
 			return (1);
@@ -99,7 +98,6 @@ int	create_processes(t_data *data, t_philo *philos)
 			philos[i].pid = pid;
 			data->pids[i] = pid;
 		}
-		i++;
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:35:24 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/04 17:03:09 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/23 17:51:54 by pn               ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	philo_routine(t_philo *philo)
 			&& philo->meals_eaten >= philo->data->max_meals)
 		{
 			sem_post(philo->data->finished);
-			return ;
+			//return ;
 		}
 	}
 }

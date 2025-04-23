@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pn <pn@student.42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:25:16 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/22 17:50:07 by pn               ###   ########lyon.fr   */
+/*   Updated: 2025/04/23 14:30:01 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,6 @@ int	init_data(t_data *data, int argc, char **argv)
 	}
 	data->start_time = get_current_time();
 	return (0);
-}
-
-void	unlink_semaphores(void)
-{
-	sem_unlink(SEM_FORKS);
-	sem_unlink(SEM_WRITE);
-	sem_unlink(SEM_MEAL);
-	sem_unlink(SEM_FINISHED);
-	sem_unlink(SEM_STOP);
-	sem_unlink(SEM_DEATH);
-	sem_unlink(SEM_MAIN);
 }
 
 int	init_semaphores(t_data *data)
@@ -83,6 +72,7 @@ void	kill_philos_fail(t_data *data, int i)
 		j++;
 	}
 }
+
 int	create_processes(t_data *data, t_philo *philos)
 {
 	int		i;
@@ -92,8 +82,9 @@ int	create_processes(t_data *data, t_philo *philos)
 	while (i < data->num_philos)
 	{
 		init_philo(&philos[i], i, data);
+		if (i != 5)
 			pid = fork();
-		if (pid < 0 )
+		if (i == 5 || pid < 0)
 		{
 			kill_philos_fail(data, i);
 			return (1);

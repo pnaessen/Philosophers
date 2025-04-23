@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:26:30 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/05 11:57:23 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/23 14:29:51 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,15 @@ void	create_monitor_threads(t_wait *wait_data, pthread_t *death_thread,
 	pthread_create(death_thread, NULL, death_routine, wait_data);
 	if (wait_data->data->max_meals > 0)
 		pthread_create(meals_thread, NULL, meals_routine, wait_data);
+}
+
+void	unlink_semaphores(void)
+{
+	sem_unlink(SEM_FORKS);
+	sem_unlink(SEM_WRITE);
+	sem_unlink(SEM_MEAL);
+	sem_unlink(SEM_FINISHED);
+	sem_unlink(SEM_STOP);
+	sem_unlink(SEM_DEATH);
+	sem_unlink(SEM_MAIN);
 }

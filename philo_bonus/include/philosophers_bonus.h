@@ -6,7 +6,7 @@
 /*   By: pnaessen <pnaessen@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:23:02 by pnaessen          #+#    #+#             */
-/*   Updated: 2025/04/23 14:28:00 by pnaessen         ###   ########lyon.fr   */
+/*   Updated: 2025/04/24 11:49:51 by pnaessen         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
+	bool has_finished_meals;
 	pid_t			pid;
 	pthread_t		monitor_thread;
 	long			last_meal;
